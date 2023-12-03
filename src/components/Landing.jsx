@@ -36,20 +36,20 @@ const Landing = () => {
       if (track.dataset.mouseDownAt === "0") return;
       const mouseDelta =
           parseFloat(parseInt(track.dataset.mouseDownAt)) - e.clientX,
-        maxDelta = window.innerWidth / 2;
+        maxDelta = window.innerWidth;
       const percentage = (mouseDelta / maxDelta) * -100,
         nextPercentageUnconstrained =
           parseFloat(track.dataset.prevPercentage) + percentage,
         nextPercentage = Math.max(
           Math.min(nextPercentageUnconstrained, 0),
-          -100
+          -90
         );
       track.dataset.percentage = nextPercentage;
       track.animate(
         {
           transform: `translate(${nextPercentage}%, -50%)`,
         },
-        { duration: 1000, fill: "forwards" }
+        { duration: 1500, fill: "forwards" }
       );
 
       for (const image of track.getElementsByClassName("image")) {
@@ -57,7 +57,7 @@ const Landing = () => {
           {
             objectPosition: `${100 + nextPercentage}% center`,
           },
-          { duration: 1000, fill: "forwards" }
+          { duration: 1500, fill: "forwards" }
         );
       }
     };
@@ -108,6 +108,24 @@ const Landing = () => {
       />
       <img
         src="/sky.jpeg"
+        alt=""
+        className="w-[35vmin] h-[56vmin] object-cover  object-right image select-none"
+        draggable="false"
+      />
+      <img
+        src="/tower.jpg"
+        alt=""
+        className="w-[35vmin] h-[56vmin] object-cover  object-right image select-none"
+        draggable="false"
+      />
+      <img
+        src="/house.jpg"
+        alt=""
+        className="w-[35vmin] h-[56vmin] object-cover  object-right image select-none"
+        draggable="false"
+      />
+      <img
+        src="/estate.jpg"
         alt=""
         className="w-[35vmin] h-[56vmin] object-cover  object-right image select-none"
         draggable="false"
