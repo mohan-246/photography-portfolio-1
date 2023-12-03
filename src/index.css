@@ -3,17 +3,17 @@
 @tailwind utilities; */
 
 body {
-    height: 100vh;
+    height: 400vh;
     width: 100vw;
-    background-color: black;
+    background-color: #141414;
     margin: 0rem;
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   #image-track {
     display: flex;
     gap: 4vmin;
-    position: absolute;
+    position: fixed;
     left: 40%;
     top: 50%;
     transform: translate(0%, -50%); 
@@ -21,9 +21,10 @@ body {
   }
   
   #image-track > .image {
-    width: 40vmin;
-    height: 56vmin;
+    width: 35vmin;
+    height: 51vmin;
     object-fit: cover;
     object-position: 100% center;
+    image-resolution: 100dpi;
   }
   
