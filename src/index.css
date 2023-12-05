@@ -8,6 +8,7 @@ body {
   background-color: #141414;
   margin: 0rem;
   overflow-x: hidden;
+  user-select: none;
 }
 
 #image-track {
@@ -72,13 +73,13 @@ body {
   transform: translate(-50%, 0);
   display: flex;
   gap: 1vw;
-  border: white;
-  border-style: dotted;
-  overflow-y: visible;
+  overflow-y: hidden;
   height: 20px;
   padding-top: 0px;
-  padding-bottom: 20px ;
   margin-top: 20px;
+}
+#counter > p{
+  margin: 0;
 }
 #count{
     display: flex;

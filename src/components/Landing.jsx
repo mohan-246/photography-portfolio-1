@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import gsap,{ Power4 , Bounce } from "gsap";
-import { Observer } from "gsap/all";
+import gsap, { Power4, Power2 } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 const Landing = () => {
-  gsap.registerPlugin(Observer);
+  gsap.registerPlugin(ScrollTrigger);
   const [curNav, setCurNav] = useState("work");
-  const [count, setCount] = useState(1);
+
   useEffect(() => {
     const track = document.getElementById("image-track");
     const handleOnDown = (e) => (track.dataset.mouseDownAt = e.clientX);
@@ -27,155 +28,161 @@ const Landing = () => {
       const countpercentage = (nextPercentage / 90) * 176;
       switch (true) {
         case countpercentage <= 0 && countpercentage > -11:
-          gsap.to('#count',{y: -20 , duration: 1 , ease : Power4.easeIn})
+          gsap.to("#count", { y: 0, duration: 0.8, ease: Power2.easeOut });
           break;
 
-        case countpercentage < -11 && countpercentage > -33:
-          setCount(2);
+        case countpercentage < -11 && countpercentage >= -33:
+          gsap.to("#count", { y: -28, duration: 0.8, ease: Power2.easeOut });
           break;
 
-        case countpercentage < -33 && countpercentage > -55:
-          setCount(3);
+        case countpercentage < -33 && countpercentage >= -55:
+          gsap.to("#count", { y: -56, duration: 0.8, ease: Power2.easeOut });
           break;
 
-        case countpercentage < -55 && countpercentage > -77:
-          setCount(4);
+        case countpercentage < -55 && countpercentage >= -77:
+          gsap.to("#count", { y: -84, duration: 0.8, ease: Power2.easeOut });
           break;
 
-        case countpercentage < -77 && countpercentage > -99:
-          setCount(5);
+        case countpercentage < -77 && countpercentage >= -99:
+          gsap.to("#count", { y: -110, duration: 0.8, ease: Power2.easeOut });
           break;
 
-        case countpercentage < -99 && countpercentage > -121:
-          setCount(6);
+        case countpercentage < -99 && countpercentage >= -121:
+          gsap.to("#count", { y: -138.5, duration: 0.8, ease: Power2.easeOut });
           break;
-
-        case countpercentage < -121 && countpercentage > -143:
-          setCount(7);
+        case countpercentage < -121 && countpercentage >= -143:
+          gsap.to("#count", { y: -166, duration: 0.8, ease: Power2.easeOut });
           break;
-
-        case countpercentage < -143 && countpercentage > -165:
-          setCount(8);
+        case countpercentage < -143 && countpercentage >= -165:
+          gsap.to("#count", { y: -194, duration: 0.8, ease: Power2.easeOut });
           break;
-
         case countpercentage < -165 && countpercentage >= -176:
-          setCount(9);
+          gsap.to("#count", { y: -220, duration: 0.8, ease: Power2.easeOut });
           break;
-
         default:
-          setCount(1);
+          gsap.to("#count", { y: 0, duration: 0.8, ease: Power2.easeOut });
       }
 
       track.dataset.percentage = nextPercentage;
-      track.animate(
-        {
-          transform: `translate(${nextPercentage}%, -50%)`,
-        },
-        { duration: 1300, fill: "forwards" }
-      );
-
+      gsap.to(track, {
+        xPercent: nextPercentage,
+        duration: 0.8,
+        ease: Power2.easeOut, // Adjust easing as needed
+      });
       for (const image of track.getElementsByClassName("image")) {
-        image.animate(
-          {
-            objectPosition: `${100 + nextPercentage}% center`,
-          },
-          { duration: 1500, fill: "forwards" }
-        );
+        gsap.to(image, {
+          objectPosition: `${100 + nextPercentage}% center`,
+          duration: 1,
+          ease: Power2.easeOut, // Adjust easing as needed
+        });
       }
     };
-    const handleOnScroll = (e) => {
-      const totalHeight = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight
-      );
-      const maxScrollY = totalHeight - window.innerHeight;
-      const currentY = window.scrollY;
-      const percentage = (currentY / maxScrollY) * -90;
-      const nextPercentageUnconstrained = percentage;
-      const nextPercentage = Math.max(
-        Math.min(nextPercentageUnconstrained, 0),
-        -90
-      );
-      console.log(nextPercentage);
 
-      const countpercentage = (nextPercentage / 90) * 176;
-      console.log(track.dataset.percentage , nextPercentage)
-      // const  y1 = document.getElementById(1).getBoundingClientRect().top
-      // const  y2 = document.getElementById(2).getBoundingClientRect().top
-      // const  y3 = document.getElementById(3).getBoundingClientRect().top
-      // const  y4 = document.getElementById(4).getBoundingClientRect().top
-      // const  y5 = document.getElementById(5).getBoundingClientRect().top
-      // const  y6 = document.getElementById(6).getBoundingClientRect().top
-      // const  y7 = document.getElementById(7).getBoundingClientRect().top
-      // const  y8 = document.getElementById(8).getBoundingClientRect().top
-      // const  y9 = document.getElementById(9).getBoundingClientRect().top
-      switch (true) {
-        case countpercentage <= 0 && countpercentage > -11:
-           gsap.to('#count', { y: 19, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -11 && countpercentage > -33:
-          track.dataset.percentage < nextPercentage ? gsap.to('#count', { y: -10, duration: 0.2, ease: Bounce.easeOut }): gsap.to('#count', { y: -10, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -33 && countpercentage > -55:
-          track.dataset.percentage < nextPercentage ? gsap.to('#count', { y: -36, duration: 0.2, ease: Bounce.easeOut }): gsap.to('#count', { y: -36, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -55 && countpercentage > -77:
-          track.dataset.percentage < nextPercentage ? gsap.to('#count', { y: -64, duration: 0.2, ease: Bounce.easeOut }): gsap.to('#count', { y: -64, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -77 && countpercentage > -99:
-          track.dataset.percentage < nextPercentage ? gsap.to('#count', { y: -90, duration: 0.2, ease: Bounce.easeOut }): gsap.to('#count', { y: -90, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -99 && countpercentage > -121:
-          track.dataset.percentage < nextPercentage ? gsap.to('#count', { y: -120, duration: 0.2, ease: Bounce.easeOut }): gsap.to('#count', { y: -120, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -121 && countpercentage > -143:
-          track.dataset.percentage < nextPercentage ? gsap.to('#count', { y: -146, duration: 0.2, ease: Bounce.easeOut }): gsap.to('#count', { y: -146, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -143 && countpercentage > -165:
-          track.dataset.percentage < nextPercentage ? gsap.to('#count', { y: -174, duration: 0.2, ease: Bounce.easeOut }): gsap.to('#count', { y: -174, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        case countpercentage < -165 && countpercentage >= -176:
-          gsap.to('#count', { y: -200, duration: 0.5, ease: Bounce.easeOut })
-          break;
-
-        default:
-          gsap.to('#count', { y: 0, duration: 0.2, ease: Bounce.easeOut })
-      }
-
-      track.dataset.percentage = nextPercentage;
-      track.animate(
-        {
-          transform: `translate(${nextPercentage}%, -50%)`,
-        },
-        { duration: 1300, fill: "forwards" }
-      );
-
-      for (const image of track.getElementsByClassName("image")) {
-        image.animate(
-          {
-            objectPosition: `${100 + nextPercentage}% center`,
-          },
-          { duration: 1500, fill: "forwards" }
-        );
-      }
-      track.dataset.prevPercentage = percentage;
-    };
     window.onmousedown = (e) => handleOnDown(e);
     window.ontouchstart = (e) => handleOnDown(e.touches[0]);
     window.onmouseup = (e) => handleOnUp(e);
     window.ontouchend = (e) => handleOnUp(e.touches[0]);
     window.onmousemove = (e) => handleOnMove(e);
     window.ontouchmove = (e) => handleOnMove(e.touches[0]);
-    window.onscroll = (e) => handleOnScroll(e);
-    window.onscrollend = (e) => handleOnUp(e);
+    gsap.to("#image-track", {
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress * -90;
+          const nextPercentage = Math.max(Math.min(progress, 0), -90);
+          const countpercentage = (nextPercentage / 90) * 176;
+          switch (true) {
+            case countpercentage <= 0 && countpercentage > -11:
+              gsap.to("#count", { y: 0, duration: 0.8, ease: Power2.easeOut });
+              break;
+
+            case countpercentage < -11 && countpercentage >= -33:
+              gsap.to("#count", {
+                y: -28,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            case countpercentage < -33 && countpercentage >= -55:
+              gsap.to("#count", {
+                y: -56,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            case countpercentage < -55 && countpercentage >= -77:
+              gsap.to("#count", {
+                y: -84,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            case countpercentage < -77 && countpercentage >= -99:
+              gsap.to("#count", {
+                y: -110,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            case countpercentage < -99 && countpercentage >= -121:
+              gsap.to("#count", {
+                y: -138.5,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            case countpercentage < -121 && countpercentage >= -143:
+              gsap.to("#count", {
+                y: -166,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            case countpercentage < -143 && countpercentage >= -165:
+              gsap.to("#count", {
+                y: -194,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            case countpercentage < -165 && countpercentage >= -176:
+              gsap.to("#count", {
+                y: -220,
+                duration: 0.8,
+                ease: Power2.easeOut,
+              });
+              break;
+
+            default:
+              gsap.to("#count", { y: 0, duration: 0.8, ease: Power2.easeOut });
+          }
+          track.dataset.percentage = nextPercentage;
+          gsap.to(track, {
+            xPercent: nextPercentage,
+            duration: 0.8,
+            ease: Power2.easeOut, // Adjust easing as needed
+          });
+          for (const image of track.getElementsByClassName("image")) {
+            gsap.to(image, {
+              objectPosition: `${100 + nextPercentage}% center`,
+              duration: 1,
+              ease: Power2.easeOut, // Adjust easing as needed
+            });
+          }
+          track.dataset.prevPercentage = track.dataset.percentage;
+        },
+      },
+    });
   }, []);
   useEffect(() => {
     const work = document.getElementById("work");
@@ -236,7 +243,7 @@ const Landing = () => {
           <span id="9">9</span>
         </p>
         <p>-</p>
-        <p>{count}</p>
+        <p>9</p>
       </div>
       <p id="about-me">
         <span>
