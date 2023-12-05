@@ -25,28 +25,25 @@ const Landing = () => {
         Math.min(nextPercentageUnconstrained, 0),
         -90
       );
+      const trackPercentageY = nextPercentage / -90;
+      console.log(trackPercentageY)
       const countpercentage = (nextPercentage / 90) * 176;
       switch (true) {
         case countpercentage <= 0 && countpercentage > -11:
           gsap.to("#count", { y: 0, duration: 0.8, ease: Power2.easeOut });
           break;
-
         case countpercentage < -11 && countpercentage >= -33:
           gsap.to("#count", { y: -28, duration: 0.8, ease: Power2.easeOut });
           break;
-
         case countpercentage < -33 && countpercentage >= -55:
           gsap.to("#count", { y: -56, duration: 0.8, ease: Power2.easeOut });
           break;
-
         case countpercentage < -55 && countpercentage >= -77:
           gsap.to("#count", { y: -84, duration: 0.8, ease: Power2.easeOut });
           break;
-
         case countpercentage < -77 && countpercentage >= -99:
           gsap.to("#count", { y: -110, duration: 0.8, ease: Power2.easeOut });
           break;
-
         case countpercentage < -99 && countpercentage >= -121:
           gsap.to("#count", { y: -138.5, duration: 0.8, ease: Power2.easeOut });
           break;
@@ -92,8 +89,13 @@ const Landing = () => {
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress * -90;
+          // if (progress != track.dataset.percentage){
+          //   self.progress = track.dataset.percentage
+          // }
+          // const progress = track.dataset.percentage
           const nextPercentage = Math.max(Math.min(progress, 0), -90);
           const countpercentage = (nextPercentage / 90) * 176;
+          // if((self.direction == 1 && track.dataset.percentage) )
           switch (true) {
             case countpercentage <= 0 && countpercentage > -11:
               gsap.to("#count", { y: 0, duration: 0.8, ease: Power2.easeOut });
