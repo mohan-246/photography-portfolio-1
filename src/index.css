@@ -5,9 +5,10 @@ body {
   margin: 0rem;
   overflow-x: hidden;
   user-select: none;
+  font-family: "Urbanist", sans-serif;
 }
 ::-webkit-scrollbar {
-  width: 0;  
+  width: 0;
 }
 #image-track {
   display: flex;
@@ -37,7 +38,6 @@ body {
 #navbar {
   color: gray;
   font-size: 1.5vw;
-  font-family: "Nova Square", sans-serif;
   font-weight: 400;
   position: fixed;
   top: 3vh;
@@ -47,13 +47,12 @@ body {
   gap: 4vw;
   z-index: 1;
 }
-#navbar :hover {
+#work , #about :hover {
   color: white;
 }
 #counter {
   color: whitesmoke;
-  font-size: 19px; /* transfer into vw */
-  font-family: "Nova Square", sans-serif;
+  font-size: 1vw; /* transfer into vw */
   font-weight: 400;
   position: fixed;
   bottom: 5vh;
@@ -62,7 +61,7 @@ body {
   display: flex;
   gap: 1vw;
   overflow-y: hidden;
-  height: 20px; /* transfer into vw */
+  height: 1vw; /* transfer into vw */
   padding-top: 0px;
   margin-top: 20px;
 }
@@ -72,8 +71,8 @@ body {
 #count {
   display: flex;
   flex-direction: column;
-  gap: 4.51px;
-  margin: 0 4.51px;
+  gap: 0.5vw;
+  margin: 0 0.5vw;
 }
 #about-me {
   color: whitesmoke;
@@ -81,13 +80,12 @@ body {
   width: 50vw;
   left: 44%;
   top: 15vh;
-  font-family: "Nova Square", sans-serif;
-  opacity: 1;
+  opacity: 0;
 }
-#about-me > div > h2 {
+#about-me > div > h2 , #about-me > div> div> h2 {
   font-size: 3vw;
   line-height: 4lh;
-  margin-top:20vh ;
+  margin-top: 20vh;
   margin-bottom: 5vh;
 }
 #about-me > div > p,
@@ -97,7 +95,22 @@ li {
   padding-left: 2vw;
   list-style-type: none;
 }
-.about-line{
+.about-line {
   overflow-y: hidden;
-
+  /* border-color: white;
+  border-style: dotted; */
+}
+/* #working-experiences > h2, ul > li > span,
+#awards-and-recognitions > h2, ul > li > span,
+#get-in-touch > h2, ul > li > span ,
+#introduction > h2> span,
+#introduction > p > span > span{
+   border-color: aqua;
+  border-style: dashed; 
+} */
+.about-line > span {
+  display: inline-block;
+}
+#about-me {
+  will-change: transform;
 }
