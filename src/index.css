@@ -7,32 +7,40 @@ body {
   user-select: none;
   font-family: "Urbanist", sans-serif;
 }
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 0;
-}
-#image-track {
+} */
+#image-track,
+#image-track-2 {
   display: flex;
   gap: 1.25vw;
   position: fixed;
   left: 40vw;
   bottom: 50%;
-  transform: translate(0%, 50%);
+  transform: translateY(50%);
   user-select: none;
 }
-#image-track > .image {
+#image-track > .image,
+#image-track-2 > .image {
   width: 35vmin;
   height: 55vmin;
   object-fit: cover;
   object-position: 100% center;
-  image-resolution: 200dpi;
 }
+
 #image-track {
   z-index: 5;
+}
+#image-track-2 {
+  z-index: 4;
+}
+#image-track-2 > .image{
+  opacity: 0;
 }
 #plus {
   position: fixed;
   top: 50%;
-  font-family:'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
   left: 50%;
   transform: translate(-50%, -50%);
   color: whitesmoke;
@@ -50,9 +58,10 @@ body {
   transform: translate(-50%, 0);
   display: flex;
   gap: 4vw;
-  z-index: 1;
+  z-index: 100;
 }
-#work:hover , #about:hover {
+#work:hover,
+#about:hover {
   color: white;
 }
 #counter {
@@ -71,7 +80,6 @@ body {
   /* border-style: dotted; */
   padding-top: 0px;
   margin-top: 0px;
- 
 }
 #counter > p {
   margin: 0;
@@ -80,7 +88,6 @@ body {
 #count {
   display: flex;
   flex-direction: column;
-  
 }
 #about-me {
   color: whitesmoke;
@@ -92,7 +99,8 @@ body {
   top: 15vh;
   opacity: 0;
 }
-#about-me > div > h2 , #about-me > div> div> h2 {
+#about-me > div > h2,
+#about-me > div > div > h2 {
   font-size: 3vw;
   line-height: 4lh;
   margin-top: 20vh;
@@ -121,23 +129,25 @@ li {
 .about-line > span {
   display: inline-block;
 }
-#about-me , #image-track {
+#about-me,
+#image-track {
   will-change: transform;
 }
-#get-in-touch{
+#get-in-touch {
   margin-bottom: 40vh;
 }
-#image-track-small{
+#image-track-small {
   display: flex;
   gap: 0.2vw;
   position: fixed;
   bottom: 5vh;
-  right: 5vw;
+  width: 27vw;
+  left: 68vw;
   z-index: 99;
 }
-#image-track-small > img{
+#image-track-small > img {
   width: 3.2vw;
   height: 1.8vw;
   object-fit: cover;
-  opacity:0;
+  opacity: 0;
 }
