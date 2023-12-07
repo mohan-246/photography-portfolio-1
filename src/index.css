@@ -12,11 +12,11 @@ body {
 }
 #image-track {
   display: flex;
-  gap: 4vw;
+  gap: 1.25vw;
   position: fixed;
   left: 40vw;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  bottom: 50%;
+  transform: translate(0%, 50%);
   user-select: none;
 }
 #image-track > .image {
@@ -26,14 +26,19 @@ body {
   object-position: 100% center;
   image-resolution: 200dpi;
 }
+#image-track {
+  z-index: 5;
+}
 #plus {
   position: fixed;
   top: 50%;
+  font-family:'Courier New', Courier, monospace;
   left: 50%;
   transform: translate(-50%, -50%);
   color: whitesmoke;
   font-size: 2vw;
-  font-weight: 400;
+  font-weight: 100;
+  z-index: 9;
 }
 #navbar {
   color: gray;
@@ -47,7 +52,7 @@ body {
   gap: 4vw;
   z-index: 1;
 }
-#work , #about :hover {
+#work:hover , #about:hover {
   color: white;
 }
 #counter {
@@ -59,26 +64,31 @@ body {
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
+  z-index: 100;
   gap: 1vw;
   overflow-y: hidden;
   height: 1vw; /* transfer into vw */
+  /* border-style: dotted; */
   padding-top: 0px;
-  margin-top: 20px;
+  margin-top: 0px;
+ 
 }
 #counter > p {
   margin: 0;
+  line-height: 1vw;
 }
 #count {
   display: flex;
   flex-direction: column;
-  gap: 0.5vw;
-  margin: 0 0.5vw;
+  
 }
 #about-me {
   color: whitesmoke;
   position: absolute;
   width: 50vw;
+  height: auto;
   left: 44%;
+  z-index: -1;
   top: 15vh;
   opacity: 0;
 }
@@ -111,6 +121,23 @@ li {
 .about-line > span {
   display: inline-block;
 }
-#about-me {
+#about-me , #image-track {
   will-change: transform;
+}
+#get-in-touch{
+  margin-bottom: 40vh;
+}
+#image-track-small{
+  display: flex;
+  gap: 0.2vw;
+  position: fixed;
+  bottom: 5vh;
+  right: 5vw;
+  z-index: 99;
+}
+#image-track-small > img{
+  width: 3.2vw;
+  height: 1.8vw;
+  object-fit: cover;
+  opacity:0;
 }

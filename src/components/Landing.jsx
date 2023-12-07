@@ -5,9 +5,25 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 const Landing = () => {
   gsap.registerPlugin(ScrollTrigger);
   const [curNav, setCurNav] = useState("work");
+  const [curStart, setCurStart] = useState("carousel");
+  const [selectedImage, setSelectedImage] = useState("null");
+  const imageSources = [
+    "https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ];
 
   useEffect(() => {
+    scrollToTop(0);
+  }, []);
+  useEffect(() => {
     const track = document.getElementById("image-track");
+    const track2 = document.getElementById("image-track-2");
     const work = document.getElementById("work");
     const about = document.getElementById("about");
 
@@ -20,106 +36,103 @@ const Landing = () => {
       about.style.color = "gray";
       about.style.opacity = "0.75";
 
-      // Create ScrollTrigger for the "work" section
-      gsap.to("#image-track", {
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          onUpdate: (self) => {
-            const progress = self.progress * -90;
-            const nextPercentage = Math.max(Math.min(progress, 0), -90);
-            const countpercentage = (nextPercentage / 90) * 176;
-            switch (true) {
-              case countpercentage <= 0 && countpercentage > -11:
-                gsap.to("#count", {
-                  y: 0,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -11 && countpercentage >= -33:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.0185,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -33 && countpercentage >= -55:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.0360 ,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -55 && countpercentage >= -77:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.0540,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -77 && countpercentage >= -99:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.0720,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -99 && countpercentage >= -121:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.0900,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -121 && countpercentage >= -143:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.1080,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -143 && countpercentage >= -165:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.1255,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              case countpercentage < -165 && countpercentage >= -176:
-                gsap.to("#count", {
-                  y: - window.innerWidth * 0.1440,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-                break;
-              default:
-                gsap.to("#count", {
-                  y: 0,
-                  duration: 0.8,
-                  ease: Power2.easeOut,
-                });
-            }
-            track.dataset.percentage = nextPercentage;
-            gsap.to(track, {
-              xPercent: nextPercentage,
-              duration: 0.8,
-              ease: Power2.easeOut,
-            });
-            const imagePercentage = (nextPercentage / 90) * 100;
-            for (const image of track.getElementsByClassName("image")) {
-              gsap.to(image, {
-                objectPosition: `${100 + imagePercentage}% center`,
-                duration: 1,
+      if (selectedImage == "null") {
+        gsap.to("#image-track , #image-track-2", {
+          scrollTrigger: {
+            trigger: "body",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1,
+            onUpdate: (self) => {
+              const progress = self.progress * -90;
+              const nextPercentage = Math.max(Math.min(progress, 0), -90);
+              const countpercentage = (nextPercentage / 90) * 154;
+              switch (true) {
+                case countpercentage <= 0 && countpercentage > -11:
+                  gsap.to("#count", {
+                    y: 0,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                case countpercentage < -11 && countpercentage >= -33:
+                  gsap.to("#count", {
+                    y: -window.innerWidth * 0.01,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                case countpercentage < -33 && countpercentage >= -55:
+                  gsap.to("#count", {
+                    y: -window.innerWidth * 0.02,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                case countpercentage < -55 && countpercentage >= -77:
+                  gsap.to("#count", {
+                    y: -window.innerWidth * 0.03,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                case countpercentage < -77 && countpercentage >= -99:
+                  gsap.to("#count", {
+                    y: -window.innerWidth * 0.04,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                case countpercentage < -99 && countpercentage >= -121:
+                  gsap.to("#count", {
+                    y: -window.innerWidth * 0.05,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                case countpercentage < -121 && countpercentage >= -143:
+                  gsap.to("#count", {
+                    y: -window.innerWidth * 0.06,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                case countpercentage < -143 && countpercentage >= -154:
+                  gsap.to("#count", {
+                    y: -window.innerWidth * 0.07,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+                  break;
+                default:
+                  gsap.to("#count", {
+                    y: 0,
+                    duration: 0.8,
+                    ease: Power2.easeOut,
+                  });
+              }
+              track.dataset.percentage = nextPercentage;
+              gsap.to(track, {
+                xPercent: nextPercentage,
+                duration: 0.4,
                 ease: Power2.easeOut,
               });
-            }
-            track.dataset.prevPercentage = nextPercentage;
+              const imagePercentage = (nextPercentage / 90) * 100;
+              for (const image of track.getElementsByClassName("image")) {
+                gsap.to(image, {
+                  objectPosition: `${100 + imagePercentage}% center`,
+                  duration: 0.4,
+                  ease: Power2.easeOut,
+                });
+              }
+              track.dataset.prevPercentage = nextPercentage;
+            },
           },
-        },
-      });
+        });
+      }
+      else{
+        const tl = gsap.timeline()
+      }
     } else {
       about.style.color = "whitesmoke";
       about.style.opacity = "1";
@@ -130,7 +143,7 @@ const Landing = () => {
         scrollTrigger: {
           trigger: "#not-intro",
           start: "top 85%",
-          end: "bottom 80%",
+          end: "bottom 75%",
           scrub: 1,
         },
       });
@@ -153,7 +166,7 @@ const Landing = () => {
         );
       });
     }
-  }, [curNav]);
+  }, [curNav, selectedImage]);
 
   function showAbout() {
     const tl = gsap.timeline();
@@ -189,18 +202,16 @@ const Landing = () => {
         },
 
         0.4
-      ).to(
-        "#about-me",
-        {
-          opacity: 1,
-        }
       )
+      .to("#about-me", {
+        opacity: 1,
+      })
       .to(introText, {
         duration: 0.5,
         y: 0,
         opacity: 1,
         ease: Power4.easeOut,
-      })
+      });
   }
   function showWork() {
     const tl = gsap.timeline();
@@ -257,6 +268,91 @@ const Landing = () => {
       behavior: "auto", // You can use "auto" or "smooth" for scrolling behavior
     });
   }
+  function showPicSmall(id) {
+    console.log("S", id);
+  }
+  function showPicFake(id) {
+    console.log("F", id);
+  }
+  function showPic(id) {
+    setSelectedImage(id);
+    const track = document.getElementById("image-track");
+    const smallImage = document.getElementById(`${id}-s`);
+    // const fakeImage = document.getElementById(`${id}-f`);
+    const pic = document.getElementById(id);
+    const tl = gsap.timeline();
+    const pics = gsap.utils.toArray("#image-track .image");
+    const imagePercentage = (track.dataset.prevPercentage / 90) * 100;
+
+    const newImage = document.createElement("img");
+    newImage.id = `${id}-f`
+    newImage.src = pic.src;
+    newImage.alt = pic.alt;
+    newImage.className = pic.className;
+    newImage.style.width = "35vmin";
+    newImage.style.height = "55vmin";
+    newImage.style.objectFit = "cover";
+    newImage.style.objectPosition = `${imagePercentage} center`;
+    const rect = pic.getBoundingClientRect();
+    newImage.style.position = "fixed";
+    newImage.style.top = rect.top + "px";
+    newImage.style.left = rect.left + "px";
+    document.body.appendChild(newImage);
+    tl.to(
+      track,
+      {
+        width: "30.39vw",
+        gap: "0.2vw",
+        bottom: "5vh",
+        left: "68.01vw",
+        transform: "translate(0,0)",
+        duration: 1.2,
+        ease: Power4.easeOut,
+      },
+      0
+    )
+      .to(
+        pics,
+        {
+          width: "3.2vw",
+          height: "1.8vw",
+          duration: 1.2,
+          ease: Power4.easeOut,
+        },
+        0
+      )
+      .to(
+        pic,
+        {
+          opacity: 0,
+          duration: 0,
+        },
+        0
+      )
+      .fromTo(
+        smallImage,
+        {
+          y: "5vh",
+          opacity: 0,
+        },
+        { y: 0, duration: 0.6, opacity: 1, ease: Power4.easeOut },
+        0.8
+      )
+      .to(
+        newImage,
+        {
+          height: "100vh",
+          width: "100vw",
+          top: 0,
+          left: 0,
+          objectPosition: "center",
+          ease: Power4.easeOut,
+
+          duration: 1.2,
+        },
+        0
+      );
+  }
   return (
     <div>
       <section className="wrapper">
@@ -266,20 +362,70 @@ const Landing = () => {
           data-mouse-down-at="0"
           data-prev-percentage="0"
         >
-          <img src="/house.jpg" alt="" className="image" draggable="false" />
           <img
-            src="/DSC_0320-2.jpg"
+            id="pic-1"
+            onClick={() => showPic("pic-1")}
+            src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
             draggable="false"
           />
-          <img src="/DSC_0105.jpg" alt="" className="image" draggable="false" />
-          <img src="/estate.jpg" alt="" className="image" draggable="false" />
-          <img src="/DSC_0441.jpg" alt="" className="image" draggable="false" />
-          <img src="/tower.jpg" alt="" className="image" draggable="false" />
-          <img src="/DSC_0315.jpg" alt="" className="image" draggable="false" />
-          <img src="/DSC_0338.jpg" alt="" className="image" draggable="false" />
-          <img src="/fg 1.jpg" alt="" className="image" draggable="false" />
+          <img
+            id="pic-2"
+            onClick={() => showPic("pic-2")}
+            src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-3"
+            onClick={() => showPic("pic-3")}
+            src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-4"
+            onClick={() => showPic("pic-4")}
+            src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-5"
+            onClick={() => showPic("pic-5")}
+            src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-6"
+            onClick={() => showPic("pic-6")}
+            src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-7"
+            onClick={() => showPic("pic-7")}
+            src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-8"
+            onClick={() => showPic("pic-8")}
+            src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
         </div>
       </section>
       <p id="plus">+</p>
@@ -297,6 +443,7 @@ const Landing = () => {
           id="about"
           onClick={() => {
             setCurNav("about");
+            console.log("A");
             showAbout();
           }}
         >
@@ -313,10 +460,9 @@ const Landing = () => {
           <span id="6">6</span>
           <span id="7">7</span>
           <span id="8">8</span>
-          <span id="9">9</span>
         </p>
         <p>-</p>
-        <p>9</p>
+        <p>8</p>
       </section>
       <section id="about-me">
         <div id="introduction">
@@ -400,6 +546,79 @@ const Landing = () => {
               </li>
             </ul>
           </div>
+        </div>
+      </section>
+      <section>
+        <div
+          id="image-track-small"
+          className=""
+          data-mouse-down-at="0"
+          data-prev-percentage="0"
+        >
+          <img
+            id="pic-1-s"
+            onClick={() => showPicSmall("pic-1-s")}
+            src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-2-s"
+            onClick={() => showPicSmall("pic-2-s")}
+            src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-3-s"
+            onClick={() => showPicSmall("pic-3-s")}
+            src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-4-s"
+            onClick={() => showPicSmall("pic-4-s")}
+            src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-5-s"
+            onClick={() => showPicSmall("pic-5-s")}
+            src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-6-s"
+            onClick={() => showPicSmall("pic-6-s")}
+            src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-7-s"
+            onClick={() => showPicSmall("pic-7-s")}
+            src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
+          <img
+            id="pic-8-s"
+            onClick={() => showPicSmall("pic-8-s")}
+            src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt=""
+            className="image"
+            draggable="false"
+          />
         </div>
       </section>
     </div>
