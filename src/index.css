@@ -35,7 +35,7 @@ body {
   z-index: 4;
 }
 #image-track-2 > .image{
-  opacity: 0;
+  opacity: 1;
 }
 #plus {
   position: fixed;
