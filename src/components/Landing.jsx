@@ -9,7 +9,6 @@ const Landing = () => {
   gsap.registerPlugin(Observer);
   gsap.registerPlugin(CustomEase);
   const [curNav, setCurNav] = useState("work");
-  const [curStart, setCurStart] = useState("carousel");
   const [selectedImage, setSelectedImage] = useState("null");
   const [prevImageCord, setPrevImageCord] = useState([]);
   const imageSources = [
@@ -27,6 +26,37 @@ const Landing = () => {
     scrollToTop(0);
   }, []);
   useEffect(() => {
+    if (curNav == "about") {
+      const tracker = document.getElementById("tracker");
+      document.body.addEventListener("mouseover", () => {
+        tracker.style.opacity = 1;
+      });
+      document.body.addEventListener("mouseleave", () => {
+        tracker.style.opacity = 0;
+      });
+      window.addEventListener("mousemove", moveTracker);
+
+      return () => {
+        document.body.removeEventListener("mouseover", () => {
+          tracker.style.opacity = 1;
+        });
+        document.body.removeEventListener("mouseleave", () => {
+          tracker.style.opacity = 0;
+        });
+      };
+    }
+  }, [curNav]);
+  function moveTracker(e) {
+    const tracker = document.getElementById("tracker");
+    const x = e.clientX - tracker.offsetWidth / 2,
+      y = e.clientY - tracker.offsetHeight / 2;
+    gsap.to(tracker, {
+      transform: `translate(${x}px,${y}px)`,
+      duration: 0.5,
+      ease: Power4.easeOut,
+    });
+  }
+  useEffect(() => {
     const track = document.getElementById("image-track");
     const track2 = document.getElementById("image-track-2");
     const work = document.getElementById("work");
@@ -39,8 +69,7 @@ const Landing = () => {
       work.style.color = "whitesmoke";
       work.style.opacity = "1";
       about.style.color = "gray";
-      document.body.style.overflowY = "auto";
-
+      Observer.getById("aboutObserver")?.kill();
       if (selectedImage == "null") {
         gsap.to("#image-track , #image-track-2", {
           scrollTrigger: {
@@ -50,7 +79,6 @@ const Landing = () => {
             scrub: 1,
             onUpdate: (self) => {
               const progress = self.progress * -88.2;
-              // console.log("ha im active");
               const nextPercentage = Math.max(Math.min(progress, 0), -100);
               const countpercentage = (nextPercentage / 88.2) * 154;
               switch (true) {
@@ -120,7 +148,7 @@ const Landing = () => {
               track.dataset.percentage = nextPercentage;
               gsap.to([track, track2], {
                 xPercent: nextPercentage,
-                duration: 1,
+                duration: 0.6,
                 ease: Power2.easeOut,
               });
               const imagePercentage = (nextPercentage / 88.2) * 100;
@@ -131,7 +159,7 @@ const Landing = () => {
               for (const image of allImages) {
                 gsap.to(image, {
                   objectPosition: `${100 + imagePercentage}% center`,
-                  duration: 1,
+                  duration: 0.6,
                   ease: Power2.easeOut,
                 });
               }
@@ -145,19 +173,12 @@ const Landing = () => {
         const track2 = document.getElementById("image-track-2");
         const smallImage = document.getElementById(`${id}-s`);
         const pic = document.getElementById(id);
+        console.log(pic);
         const tl = gsap.timeline({ paused: true });
         const pics = gsap.utils.toArray("#image-track .image");
-        const imagePercentage =
-          100 - (track.dataset.prevPercentage / 88.2) * 100;
         const newImage = document.getElementById(`${id}-f`);
-        const fakeImages = document.querySelectorAll(".image-f");
-        document.body.scrollTo({top: 0 , behavior:"smooth" })
-        track.dataset.prevPercentage = 0
-        console.log(
-          prevImageCord,
-          imagePercentage,
-          track.dataset.prevPercentage
-        );
+        document.body.scrollTo({ top: 0, behavior: "auto" });
+        track.dataset.prevPercentage = 0;
         tl.to(
           pics,
           {
@@ -221,17 +242,9 @@ const Landing = () => {
             {
               height: "55vmin",
               width: "35vmin",
-              opacity: 0.5,
+              opacity: 0,
               duration: 0,
               position: pic.style.position,
-            },
-            2
-          )
-          .to(
-            newImage,
-            {
-              opacity: 1,
-              duration: 0,
             },
             2
           )
@@ -243,26 +256,34 @@ const Landing = () => {
             bottom: "50%",
             transform: `translate(0 ,27.5vmin)`,
             duration: 0,
-          });
+          })
+          .to(
+            "#plus",
+            {
+              scale: 1,
+              duration: 0.8,
+              ease: Power4.easeIn,
+            },
+            2
+          );
         setTimeout(() => {
           const ScrollObserver = Observer.create({
+            id: "showPicObserver",
             target: window,
             type: "wheel,touch",
-            onUp: () => {
+            onUp: (e) => {
               tl.play();
-              document.body.style.overflowY = "auto";
               setTimeout(() => {
-                
                 setSelectedImage("null");
                 ScrollObserver.kill();
-              }, 1000);
+              }, 2000);
             },
             onDown: () => {
-              // tl.play();
-              // setTimeout(() => {
-              //   setSelectedImage("null");
-              //   ScrollObserver.kill();
-              // }, 1);
+              tl.play();
+              setTimeout(() => {
+                setSelectedImage("null");
+                ScrollObserver.kill();
+              }, 2000);
             },
           });
         }, 1600);
@@ -271,42 +292,55 @@ const Landing = () => {
       about.style.color = "whitesmoke";
       about.style.opacity = "1";
       work.style.color = "gray";
+      let index = 0,
+        interval = 1000;
 
-      let tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#not-intro",
-          start: "top 85%",
-          end: "bottom 75%",
-          scrub: 1,
-        },
+      const rand = (min, max) =>
+        Math.floor(Math.random() * (max - min + 1)) + min;
+
+      const animate = (star) => {
+        star.style.setProperty("--star-left", `${rand(-10, 60)}%`);
+        star.style.setProperty("--star-top", `${rand(40, 60)}%`);
+
+        star.style.animation = "none";
+        star.offsetHeight;
+        star.style.animation = "";
+      };
+
+      for (const star of document.getElementsByClassName("magic-star")) {
+        setTimeout(() => {
+          animate(star);
+
+          setInterval(() => animate(star), 1000);
+        }, index++ * (interval / 3));
+      }
+      Observer.create({
+        id: "aboutObserver",
+        target: window, // can be any element (selector text is fine)
+        type: "wheel,touch", // comma-delimited list of what to listen for
+        onUp: () => previous(),
+        onDown: () => next(),
       });
-      const targets = gsap.utils.toArray(
-        "#working-experiences h2 span , #working-experiences ul li span,#awards-and-recognitions h2 span, #awards-and-recognitions ul li span ,#get-in-touch h2 span, #get-in-touch ul li span "
-      );
-      targets.forEach((child) => {
-        tl.fromTo(
-          child,
-          {
-            opacity: 0,
-            y: "4vw",
-          },
-          {
-            opacity: 1,
-            duration: 0.6,
-            y: 0,
-            ease: Power4.easeIn,
-          }
-        );
-      });
+      const previous = () => {
+        console.log("prev");
+      };
+      const next = () => {
+        console.log("next");
+      };
     }
   }, [curNav, selectedImage]);
 
   function showAbout() {
+    Observer.getById("showPicObserver")?.disable();
     const tl = gsap.timeline();
-    const images = gsap.utils.toArray(".image");
+    const images = gsap.utils.toArray(".image:not(.image-f, .image-s)");
     const introText = gsap.utils.toArray(
       "#introduction  h2 span , #introduction p  span  span"
     );
+    if (selectedImage != "null") {
+      document.getElementById(selectedImage).style.opacity = 1;
+      document.getElementById(`${selectedImage}-s`).style.opacity = 0;
+    }
     tl.to("#plus", {
       scale: 0,
       duration: 0.6,
@@ -315,7 +349,7 @@ const Landing = () => {
       .to(
         images,
         {
-          y: -window.innerHeight * 0.85,
+          y: -window.innerHeight,
           duration: 0.8,
           stagger: 0.05,
           ease: Power2.easeIn,
@@ -344,24 +378,62 @@ const Landing = () => {
         y: 0,
         opacity: 1,
         ease: Power4.easeOut,
-      });
+      })
+      .fromTo(
+        "#photographer",
+        {
+          opacity: 0,
+          y: window.innerHeight,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: Power4.easeOut,
+        },
+        1.7
+      );
   }
   function showWork() {
+    Observer.getById("showPicObserver")?.enable();
     const tl = gsap.timeline();
     const track = document.getElementById("image-track");
     const images = gsap.utils.toArray(".image");
     const introText = gsap.utils.toArray(
       "#introduction  h2 span , #introduction p  span  span"
     );
+    setTimeout(() => {
+      if (selectedImage != "null") {
+        document.getElementById(selectedImage).style.opacity = 0;
+        document.getElementById(`${selectedImage}-s`).style.opacity = 1;
+      }
+    }, 1600);
     tl.to(introText, {
       duration: 0.6,
       y: "4vw",
       opacity: 0,
       ease: Power4.easeIn,
     })
-      .to("#about-me", {
-        opacity: 0,
-      })
+      .to(
+        "#about-me",
+        {
+          duration: 0.6,
+          y: "4vw",
+          opacity: 0,
+          ease: Power4.easeIn,
+        },
+        0
+      )
+      .to(
+        "#photographer",
+        {
+          duration: 0.6,
+          y: "100vh",
+          opacity: 0,
+          ease: Power4.easeIn,
+        },
+        0
+      )
       .to("#plus", {
         onStart: () => {
           scrollToTop(
@@ -407,7 +479,6 @@ const Landing = () => {
   function showPicFake(id) {
     console.log("F", id);
   }
-
   function showPic(id) {
     setSelectedImage(id);
     const track = document.getElementById("image-track");
@@ -435,7 +506,7 @@ const Landing = () => {
     newImage.style.objectPosition = pic.style.objectPosition;
     const match = id.match(/(\d+)$/);
     const numericValue = match ? parseFloat(match[1]) - 1 : 0;
-    console.log(numericValue, numericValue * window.innerWidth);
+
     tl.to(
       track,
       {
@@ -525,6 +596,24 @@ const Landing = () => {
           duration: 0,
         },
         0
+      )
+      .to(
+        "#plus",
+        {
+          scale: 0,
+          duration: 1.4,
+          ease: Power4.easeOut,
+        },
+        0
+      )
+      .to(
+        "#count",
+        {
+          y: -window.innerWidth * numericValue * 0.01,
+          duration: 0.8,
+          ease: Power2.easeOut,
+        },
+        0
       );
   }
   return (
@@ -534,7 +623,7 @@ const Landing = () => {
           id="image-track"
           className=""
           data-mouse-down-at="0"
-          data-prev-percentage="0"
+          data-prev-percentage={0}
         >
           <img
             id="pic-1"
@@ -617,7 +706,6 @@ const Landing = () => {
           id="about"
           onClick={() => {
             setCurNav("about");
-            console.log("A");
             showAbout();
           }}
         >
@@ -639,86 +727,73 @@ const Landing = () => {
         <p>8</p>
       </section>
       <section id="about-me">
-        <div id="introduction">
-          <h2 className="about-line">
-            <span>Introduction</span>
-          </h2>
-          <p>
-            <span className="about-line">
-              <span>
-                Hello, I'm [Your Name], a passionate photographer dedicated{" "}
+        <div id="about-1">
+          <div id="intro">
+            <p>
+              Hi I am Mohan, As a{" "}
+              <span className="magic-star">
+                <svg viewBox="0 0 512 512">
+                  <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+                </svg>
               </span>
-            </span>
-            <span className="about-line">
-              <span>
-                to capturing moments that tell unique stories. My journey in
+              <span className="magic-star">
+                <svg viewBox="0 0 512 512">
+                  <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+                </svg>
               </span>
-            </span>
-            <span className="about-line">
-              <span>
-                the world of photography began [X years ago], and I've
+              <span className="magic-star">
+                <svg viewBox="0 0 512 512">
+                  <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+                </svg>
               </span>
-            </span>
-            <span className="about-line">
-              <span>been on a mission to freeze cherished moments in time</span>
-            </span>
-            <span className="about-line">
-              <span>ever since.</span>
-            </span>
-          </p>
+              <span className="color-text">photographer</span> I am dedicated to
+              transforming ordinary moments into extraordinary{" "}
+              <span className="color-text">memories.</span>
+            </p>
+          </div>
+          <div id="about-pic">
+            <img
+              id="photographer"
+              src="https://images.unsplash.com/photo-1499417267106-45cebb7187c9?q=80&w=2038&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt=""
+            />
+          </div>
         </div>
-        <div id="not-intro">
-          <div id="working-experiences">
-            <h2 className="about-line">
-              <span>Working Experiences</span>
-            </h2>
-            <ul>
-              <li className="about-line">
-                <span>[Year]: [Job Title] at [Company/Organization] </span>
-              </li>
-
-              <li className="about-line">
-                <span>[Year]: [Job Title] at [Company/Organization] </span>
-              </li>
-            </ul>
+        <div id="about-2">
+          <div id="intro">
+            <p>
+              Hi I am Mohan, As a{" "}
+              <span className="color-text">photographer</span> I am dedicated to
+              transforming ordinary moments into extraordinary{" "}
+              <span className="color-text">memories.</span>
+            </p>
           </div>
-
-          <div id="awards-and-recognitions">
-            <h2 className="about-line">
-              <span>Awards and Recognitions</span>
-            </h2>
-            <ul>
-              <li className="about-line">
-                <span>[Year]: [Award Name]</span>
-              </li>
-
-              <li className="about-line">
-                <span>[Year]: [Award Name]</span>
-              </li>
-            </ul>
+          <div id="about-pic-2">
+            <img
+              id="photographer"
+              src="https://images.unsplash.com/photo-1499417267106-45cebb7187c9?q=80&w=2038&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt=""
+            />
           </div>
-
-          <div id="get-in-touch">
-            <h2 className="about-line">
-              <span>Get in Touch</span>
-            </h2>
-            <ul>
-              <li className="about-line">
-                <span>Email</span>
-              </li>
-
-              <li className="about-line">
-                <span>LinkedIn</span>
-              </li>
-
-              <li className="about-line">
-                <span>Instagram</span>
-              </li>
-
-              <li className="about-line">
-                <span>X</span>
-              </li>
-            </ul>
+        </div>
+        <div id="about-3">
+          <p id="gitp">
+            <span>If you are looking to</span>{" "}
+            <span>discuss a project or just</span> <span>talk tech</span>
+          </p>
+          <div id="gitd">
+            {" "}
+            <div id="gitc">
+              <span>Get</span>
+              <span>in</span>
+              <span>touch</span>
+            </div>
+          </div>
+          <div id="gita">
+            <a href="">Email</a>
+            <a href="">Linked In</a>
+            <a href="">Instagram</a>
+            <a href="">Twitter</a>
           </div>
         </div>
       </section>
@@ -734,7 +809,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-1-s")}
             src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
           <img
@@ -742,7 +817,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-2-s")}
             src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
           <img
@@ -750,7 +825,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-3-s")}
             src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
           <img
@@ -758,7 +833,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-4-s")}
             src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
           <img
@@ -766,7 +841,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-5-s")}
             src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
           <img
@@ -774,7 +849,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-6-s")}
             src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
           <img
@@ -782,7 +857,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-7-s")}
             src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
           <img
@@ -790,7 +865,7 @@ const Landing = () => {
             onClick={() => showPicSmall("pic-8-s")}
             src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
-            className="image"
+            className="image image-s"
             draggable="false"
           />
         </div>
@@ -844,6 +919,10 @@ const Landing = () => {
             draggable="false"
           />
         </div>
+      </section>
+
+      <section>
+        <div id="tracker"></div>
       </section>
     </div>
   );
