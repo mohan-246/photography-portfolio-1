@@ -26,47 +26,44 @@ const Landing = () => {
     scrollToTop(0);
   }, []);
   useEffect(() => {
-    if (curNav == "about") {
-      const tracker = document.getElementById("tracker");
-      document.body.addEventListener("mouseover", () => {
-        tracker.style.opacity = 1;
-      });
-      document.body.addEventListener("mouseleave", () => {
-        tracker.style.opacity = 0;
-      });
-      window.addEventListener("mousemove", moveTracker);
-
-      return () => {
-        document.body.removeEventListener("mouseover", () => {
-          tracker.style.opacity = 1;
-        });
-        document.body.removeEventListener("mouseleave", () => {
-          tracker.style.opacity = 0;
-        });
-      };
-    }
-  }, [curNav]);
-  function moveTracker(e) {
     const tracker = document.getElementById("tracker");
-    const x = e.clientX - tracker.offsetWidth / 2,
-      y = e.clientY - tracker.offsetHeight / 2;
-    gsap.to(tracker, {
-      transform: `translate(${x}px,${y}px)`,
-      duration: 0.5,
-      ease: Power4.easeOut,
-    });
-  }
+    const blob = document.getElementById("gitc");
+    window.onpointermove = (event) => {
+      const { clientX, clientY } = event;
+      blob.animate(
+        {
+          transform: `translate(${(clientX * 50) / window.innerWidth}%,${
+            (clientY * 50) / window.innerHeight
+          }%)`,
+        },
+        {
+          duration: 3000,
+          fill: "forwards",
+        }
+      );
+      tracker.animate(
+        {
+          left: `${clientX}px`,
+          top: `${clientY}px`,
+        },
+        { duration: 3000, fill: "forwards" }
+      );
+    };
+  }, []);
+
   useEffect(() => {
     const track = document.getElementById("image-track");
     const track2 = document.getElementById("image-track-2");
     const work = document.getElementById("work");
     const about = document.getElementById("about");
-
+    const tracker = document.getElementById("tracker");
     // Kill existing ScrollTriggers if they exist
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
     if (curNav === "work") {
       work.style.color = "whitesmoke";
+      document.body.style.overflowY = "auto";
+      tracker.style.background = "whitesmoke";
       work.style.opacity = "1";
       about.style.color = "gray";
       Observer.getById("aboutObserver")?.kill();
@@ -290,8 +287,11 @@ const Landing = () => {
       }
     } else {
       about.style.color = "whitesmoke";
+      document.body.style.overflowY = "hidden";
       about.style.opacity = "1";
       work.style.color = "gray";
+      tracker.style.background =
+        "linear-gradient(to right, aquamarine, mediumpurple)";
       let index = 0,
         interval = 1000;
 
@@ -299,8 +299,14 @@ const Landing = () => {
         Math.floor(Math.random() * (max - min + 1)) + min;
 
       const animate = (star) => {
-        star.style.setProperty("--star-left", `${rand(-10, 60)}%`);
-        star.style.setProperty("--star-top", `${rand(40, 60)}%`);
+        star.style.setProperty(
+          "--star-left",
+          `${rand(0, window.innerWidth)}px`
+        );
+        star.style.setProperty(
+          "--star-top",
+          `${rand(0, 3 * window.innerHeight)}px`
+        );
 
         star.style.animation = "none";
         star.offsetHeight;
@@ -312,21 +318,9 @@ const Landing = () => {
           animate(star);
 
           setInterval(() => animate(star), 1000);
-        }, index++ * (interval / 3));
+        }, index++ * (interval / 6));
       }
-      Observer.create({
-        id: "aboutObserver",
-        target: window, // can be any element (selector text is fine)
-        type: "wheel,touch", // comma-delimited list of what to listen for
-        onUp: () => previous(),
-        onDown: () => next(),
-      });
-      const previous = () => {
-        console.log("prev");
-      };
-      const next = () => {
-        console.log("next");
-      };
+      
     }
   }, [curNav, selectedImage]);
 
@@ -334,13 +328,15 @@ const Landing = () => {
     Observer.getById("showPicObserver")?.disable();
     const tl = gsap.timeline();
     const images = gsap.utils.toArray(".image:not(.image-f, .image-s)");
-    const introText = gsap.utils.toArray(
-      "#introduction  h2 span , #introduction p  span  span"
-    );
     if (selectedImage != "null") {
       document.getElementById(selectedImage).style.opacity = 1;
       document.getElementById(`${selectedImage}-s`).style.opacity = 0;
     }
+    gsap.to("#tracker", {
+      background: "linear-gradient(to right, aquamarine, mediumpurple)",
+      duration: 1,
+      ease: "linear",
+    });
     tl.to("#plus", {
       scale: 0,
       duration: 0.6,
@@ -372,68 +368,26 @@ const Landing = () => {
       )
       .to("#about-me", {
         opacity: 1,
+        duration: 0.8,
+        ease: Power2.easeOut
       })
-      .to(introText, {
-        duration: 0.5,
-        y: 0,
-        opacity: 1,
-        ease: Power4.easeOut,
-      })
-      .fromTo(
-        "#photographer",
-        {
-          opacity: 0,
-          y: window.innerHeight,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: Power4.easeOut,
-        },
-        1.7
-      );
   }
   function showWork() {
     Observer.getById("showPicObserver")?.enable();
     const tl = gsap.timeline();
     const track = document.getElementById("image-track");
     const images = gsap.utils.toArray(".image");
-    const introText = gsap.utils.toArray(
-      "#introduction  h2 span , #introduction p  span  span"
-    );
     setTimeout(() => {
       if (selectedImage != "null") {
         document.getElementById(selectedImage).style.opacity = 0;
         document.getElementById(`${selectedImage}-s`).style.opacity = 1;
       }
     }, 1600);
-    tl.to(introText, {
+    tl.to("#about-me", {
       duration: 0.6,
-      y: "4vw",
       opacity: 0,
       ease: Power4.easeIn,
     })
-      .to(
-        "#about-me",
-        {
-          duration: 0.6,
-          y: "4vw",
-          opacity: 0,
-          ease: Power4.easeIn,
-        },
-        0
-      )
-      .to(
-        "#photographer",
-        {
-          duration: 0.6,
-          y: "100vh",
-          opacity: 0,
-          ease: Power4.easeIn,
-        },
-        0
-      )
       .to("#plus", {
         onStart: () => {
           scrollToTop(
@@ -754,32 +708,69 @@ const Landing = () => {
           <div id="about-pic">
             <img
               id="photographer"
-              src="https://images.unsplash.com/photo-1499417267106-45cebb7187c9?q=80&w=2038&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://images.unsplash.com/photo-1497316730643-415fac54a2af?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt=""
             />
           </div>
         </div>
         <div id="about-2">
-          <div id="intro">
-            <p>
-              Hi I am Mohan, As a{" "}
-              <span className="color-text">photographer</span> I am dedicated to
-              transforming ordinary moments into extraordinary{" "}
-              <span className="color-text">memories.</span>
-            </p>
-          </div>
           <div id="about-pic-2">
             <img
-              id="photographer"
-              src="https://images.unsplash.com/photo-1499417267106-45cebb7187c9?q=80&w=2038&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              id="photographer-2"
+              src="https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt=""
             />
           </div>
+          <div id="intro-2">
+            <h2>
+              My Lens, <span className="color-text">Your Story</span>
+            </h2>
+            <span className="magic-star">
+              <svg viewBox="0 0 512 512">
+                <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+              </svg>
+            </span>
+            <span className="magic-star">
+              <svg viewBox="0 0 512 512">
+                <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+              </svg>
+            </span>
+            <span className="magic-star">
+              <svg viewBox="0 0 512 512">
+                <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+              </svg>
+            </span>
+            <p>
+              With a passion for capturing fleeting moments and transforming
+              them into lasting memories, I embark on a visual journey, guided
+              by the light and emotions that surround me. My photography
+              transcends mere images, weaving together narratives that resonate
+              with viewers on a deeper level. Whether it's the raw energy of a
+              live performance, the quiet intimacy of a wedding, or the timeless
+              beauty of a landscape, I strive to create images that reflect the
+              essence of the subject and evoke a sense of connection.
+            </p>
+          </div>
         </div>
         <div id="about-3">
+          <span className="magic-star">
+            <svg viewBox="0 0 512 512">
+              <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+            </svg>
+          </span>
+          <span className="magic-star">
+            <svg viewBox="0 0 512 512">
+              <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+            </svg>
+          </span>
+          <span className="magic-star">
+            <svg viewBox="0 0 512 512">
+              <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
+            </svg>
+          </span>
           <p id="gitp">
             <span>If you are looking to</span>{" "}
-            <span>discuss a project or just</span> <span>talk tech</span>
+            <span>discuss a project or just</span> <span>talk photography</span>
           </p>
           <div id="gitd">
             {" "}
@@ -923,6 +914,7 @@ const Landing = () => {
 
       <section>
         <div id="tracker"></div>
+        <div id="blur"></div>
       </section>
     </div>
   );

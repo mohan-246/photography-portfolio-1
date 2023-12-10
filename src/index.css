@@ -110,26 +110,52 @@ body {
 }
 #tracker{
   position: fixed;
-  background-color: whitesmoke;
-  height: 20px;
-  width: 20px;
+  background: linear-gradient(to right, aquamarine, mediumpurple);
+  height: 20vmax;
+  aspect-ratio: 1;
   border-radius: 100%;
-  z-index: 9999;
-  left: 0px;
-  top: 0px;
+  z-index: -101;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  animation: rotate-blob 20s infinite;
+  opacity: 0.8;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 500ms ease;
+  opacity: 0.8;
+  transition: 5000ms ease;
 }
-#photographer{
+#blur {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -100;
+  backdrop-filter: blur(7vmax);
+}
+@keyframes rotate-blob {
+  from {
+    rotate: 0deg;
+  }
+  
+  50% {
+    scale: 1 1.15;
+  }
+  
+  to {
+    rotate: 360deg;
+  }
+}
+#photographer,#photographer-2{
   width: 49vmin;
   height: 77vmin;
   opacity: 1;
   object-fit: cover;
+  border-radius: 4vmin;
   object-position: "center center";
   transition: 500ms;
 }
-#about-1 , #about-2  {
+#about-1 , #about-2 {
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -137,7 +163,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-#intro ,#intro-2{
+#intro {
 font-size: 3vmax;
 font-weight: 600;
 height: 100vh;
@@ -150,11 +176,11 @@ justify-content: center;
 padding: 7vmin;
 }
 :root {  
-  --purple: rgb(0, 155, 119);
-  --violet:rgb(38, 138, 174) ;
-  --pink: rgb(0, 149, 144);
+  --purple: aquamarine;
+  --violet:aqua ;
+  --pink: mediumpurple;
 }
-#intro >p > .color-text{
+#intro >p > .color-text , #intro-2> h2 > .color-text{
   font-weight:bolder;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   animation: background-pan 3s linear infinite;
@@ -174,7 +200,7 @@ padding: 7vmin;
 }
 .magic-star {
   --size: clamp(20px, 1.5vw, 30px);
-  position: relative;
+  position: absolute;
   animation: scale 700ms ease forwards;
   display: block;
   height: var(--size);
@@ -192,11 +218,33 @@ padding: 7vmin;
   opacity: 0.7;
 }
 
-#intro>p{
+#intro>p, #intro-2 >p, #intro-2>h2{
   color: whitesmoke;
 }
-#about-pic{
+#intro-2>h2{
+  font-size: 3vmax;
+}
+#intro-2 > p{
+  font-size: 3vmin;
+  line-height: 1.35;
+}
+#intro-2{
+font-weight: 600;
+height: 100vh;
+padding: 7vmin;
+width: 66%;
+flex-direction: column;
+display: flex;
+line-height: 1.20;
+align-items: flex-start;
+justify-content: center;
+}
+#about-me{
+  opacity: 0;
+}
+#about-pic , #about-pic-2{
   align-items: center;
+  justify-content: center;
   display: flex;
   height: 100vh;
   z-index: 8;
@@ -253,13 +301,12 @@ align-items: center;
 #gitc{
   background: linear-gradient(
     to right,
-    var(--purple),
-    var(--violet),
-    var(--pink),
-    var(--purple)
+    rgba(127, 255, 212, 0.877),
+    rgba(0, 255, 255, 0.815),
+    rgba(147, 112, 216, 0.772)
   );
   background-size: 200%;
-  animation: background-pan 3s linear infinite;
+  
   height: 15vmin;
   width: 15vmin;
   border-radius: 100%;
