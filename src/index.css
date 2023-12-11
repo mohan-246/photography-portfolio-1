@@ -126,10 +126,18 @@ transition: 1000ms forwards;
   z-index: 999;
   left: 50%;
   top: -20vmax;
-  animation: rotate 20s infinite;
+  display: flex;
+  justify-content: center;
   opacity: 1;
   pointer-events: none;
   transition: 5000ms ease;
+}
+
+#tracker-icon {
+  font-size: 1vmin;
+  line-height: 3vmin;
+  opacity: 0;
+  transition: opacity 400ms ease;
 }
 .icon{
   position: relative;

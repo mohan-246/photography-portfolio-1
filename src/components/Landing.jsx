@@ -32,10 +32,6 @@ const Landing = () => {
         ease: Power4.easeOut,
       }
     )
-      .to("#tracker", {
-        top: "-10vmax",
-        ease: Power4.easeOut,
-      })
       .fromTo(
         "#navbar",
         {
@@ -70,6 +66,8 @@ const Landing = () => {
   useEffect(() => {
     const tracker = document.getElementById("tracker");
     const blob = document.getElementById("gitc");
+    const blur = document.getElementById("blur");
+    const trackerIcon = document.getElementById("tracker-icon");
     const validIdsSet = new Set([
       "pic-1",
       "pic-2",
@@ -81,9 +79,17 @@ const Landing = () => {
       "pic-8",
     ]);
     const selectedPic = document.getElementById(`${selectedImage}-f`);
-    console.log(selectedPic);
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
     window.onpointermove = (event) => {
       const { clientX, clientY } = event;
+      tracker.animate(
+        {
+          left: `${clientX - tracker.offsetWidth / 2}px`,
+          top: `${clientY - tracker.offsetHeight / 2}px`,
+        },
+        { duration: 3000, fill: "forwards" }
+      );
       if (curNav == "about") {
         blob.animate(
           {
@@ -96,36 +102,71 @@ const Landing = () => {
             fill: "forwards",
           }
         );
+        setTimeout(() => {
+          blur.style.backdropFilter = "blur(7vmax)"
+        }, 1000);
+        
+        tracker.style.animation = "rotate 20s infinite";
         tracker.animate(
           {
-            left: `${clientX - tracker.offsetWidth / 2}px`,
-            top: `${clientY - tracker.offsetHeight / 2}px`,
+            height: "20vmax",
+            zIndex: -101,
           },
-          { duration: 3000, fill: "forwards" }
+          {
+            duration: 1000,
+            fill: "forwards",
+          }
         );
       } else {
+        blur.style.backdropFilter = "blur(0vmax)";
+        tracker.style.animation = "";
         tracker.animate(
+          { height: "3vmin", zIndex: 999 },
           {
-            left: `${clientX - tracker.offsetWidth / 2}px`,
-            top: `${clientY - tracker.offsetHeight / 2}px`,
-          },
-          { duration: 3000, fill: "forwards" }
+            duration: 1000,
+            fill: "forwards",
+          }
         );
         if (selectedImage == "null") {
+          trackerIcon.className = "fa-solid fa-arrow-right-long";
           if (validIdsSet.has(event.target.id)) {
+            gsap.to(trackerIcon, {
+              rotate: -45,
+            });
             tracker.animate(
               {
-                height: "5vmin",
+                scale: 1.5,
               },
               {
-                duration: 1500,
+                duration: 500,
+                fill: "forwards",
+              }
+            );
+            trackerIcon.animate(
+              {
+                opacity: 1,
+              },
+              {
+                duration: 500,
                 fill: "forwards",
               }
             );
           } else {
+            gsap.to(trackerIcon, {
+              rotate: 0,
+            });
             tracker.animate(
               {
-                height: "3vmin",
+                scale: 1,
+              },
+              {
+                duration: 500,
+                fill: "forwards",
+              }
+            );
+            trackerIcon.animate(
+              {
+                opacity: 0,
               },
               {
                 duration: 500,
@@ -134,14 +175,35 @@ const Landing = () => {
             );
           }
         } else {
-          selectedPic.animate(
+          const distanceX = (clientX - centerX) / window.innerWidth;
+          const distanceY = (clientY - centerY) / window.innerHeight;
+          gsap.to(trackerIcon, {
+            rotate: 0,
+          });
+          if (clientX < window.innerWidth / 2) {
+            trackerIcon.className = "fa-solid fa-arrow-left";
+          } else {
+            trackerIcon.className = "fa-solid fa-arrow-right";
+          }
+          // Use distance values in the translate function
+          const transformValue = `translate(${distanceX * 2.5}%, ${
+            distanceY * 2.5
+          }%)`;
+          tracker.animate(
             {
-              transform: `translate(${(clientX * 5) / window.innerWidth}%,${
-                (clientY * 1) / window.innerHeight
-              }%)`,
+              scale: 1,
             },
             {
-              duration: 3000,
+              duration: 500,
+              fill: "forwards",
+            }
+          );
+          selectedPic.animate(
+            {
+              transform: transformValue,
+            },
+            {
+              duration: 1500,
               fill: "forwards",
             }
           );
@@ -184,7 +246,6 @@ const Landing = () => {
               const progress = self.progress * -88.2;
               const nextPercentage = Math.max(Math.min(progress, 0), -100);
               const countpercentage = (nextPercentage / 88.2) * 154;
-              const viewportCenter = window.innerWidth;
               switch (true) {
                 case countpercentage <= 0 && countpercentage > -11:
                   gsap.to("#count", {
@@ -378,23 +439,17 @@ const Landing = () => {
             type: "wheel,touch,pointer",
             wheelSpeed: 0.1,
             tolerance: 10,
-            onUp: () => {
-              tl.play();
-              setTimeout(() => {
-                setSelectedImage("null");
-                setPrevImage("null");
-                setNextImage("null");
-                ScrollObserver.kill();
-              }, 2000);
-            },
-            onDown: () => {
-              tl.play();
-              setTimeout(() => {
-                setSelectedImage("null");
-                setPrevImage("null");
-                setNextImage("null");
-                ScrollObserver.kill();
-              }, 2000);
+            onChangeY: (e) => {
+              console.log(e.event);
+              if (!(e.event instanceof PointerEvent)) {
+                tl.play();
+                setTimeout(() => {
+                  setSelectedImage("null");
+                  setPrevImage("null");
+                  setNextImage("null");
+                  ScrollObserver.kill();
+                }, 2000);
+              }
             },
             onClick: (e) => {
               const curimage = document.getElementById(`${selectedImage}-f`);
@@ -406,14 +461,13 @@ const Landing = () => {
               const [nextnextValue, nextprevValue] = getNextAndPrev(nextValue);
               const [prevnextValue, prevprevValue] = getNextAndPrev(prevValue);
               const tll = gsap.timeline();
-              console.log(e);
+              tll.clear();
               if (e.x > window.innerWidth / 2) {
                 pic.style.opacity = 1;
                 smallImage.style.opacity = 0;
                 nextimage.className = curimage.className;
                 curimage.classList.add("image-f");
                 const countValue = numericValue == 8 ? 0 : numericValue;
-                console.log(numericValue);
                 setPrevImage(`pic-${numericValue}`);
                 setSelectedImage(`pic-${nextValue}`);
                 setNextImage(`pic-${nextnextValue}`);
@@ -427,6 +481,12 @@ const Landing = () => {
                       objectPosition: "center center",
                       duration: 2,
                       objectFit: "cover",
+                      onComplete: () => {
+                        gsap.to(curimage, {
+                          left: "-100vw",
+                          duration: 0,
+                        });
+                      },
                       ease: Power4.easeOut,
                     },
                     0
@@ -437,22 +497,18 @@ const Landing = () => {
                       width: "10vw",
                       left: "100vw",
                       objectFit: "cover",
+                      objectPosition: "center center",
                       top: 0,
                     },
                     {
                       opacity: 1,
-                      left: "-5vw",
-                      width: "110vw",
-                      top: '-5vw',
-                      height: '110vw',
+                      left: "-2.5vw",
+                      width: "105vw",
+                      top: "-2.5vh",
+                      height: "105vh",
+                      objectPosition: "center center",
                       objectFit: "cover",
                       duration: 1.6,
-                      onComplete: () => {
-                        gsap.to(curimage, {
-                          left: "-10vw",
-                          duration: 0,
-                        });
-                      },
                       ease: Power4.easeOut,
                     },
                     0
@@ -467,7 +523,6 @@ const Landing = () => {
                     0
                   );
               } else if (e?.x <= window.innerWidth / 2) {
-                console.log(prevValue, numericValue, nextValue);
                 pic.style.opacity = 1;
                 smallImage.style.opacity = 0;
                 previmage.className = curimage.className;
@@ -483,10 +538,15 @@ const Landing = () => {
                     {
                       left: "110vw",
                       width: "10vw",
-                      duration: 2,
-
+                      duration: 2.5,
                       objectFit: "cover",
                       ease: Power4.easeOut,
+                      onComplete: () => {
+                        gsap.to(curimage, {
+                          left: "190vw",
+                          duration: 0,
+                        });
+                      },
                     },
                     0
                   )
@@ -500,9 +560,10 @@ const Landing = () => {
                     },
                     {
                       opacity: 1,
-                      left: "0",
-                      width: "100vw",
-                      top: 0,
+                      left: "-2.5vw",
+                      width: "105vw",
+                      height: "105vh",
+                      top: "-2.5vh",
                       duration: 1.6,
                       ease: Power4.easeOut,
                     },
@@ -565,43 +626,36 @@ const Landing = () => {
     Observer.getById("showPicObserver")?.disable();
     const tl = gsap.timeline();
     const images = gsap.utils.toArray(".image:not(.image-f, .image-s)");
+    const fakeImage = document.getElementById(`${selectedImage}-f`);
     if (selectedImage != "null") {
       document.getElementById(selectedImage).style.opacity = 1;
       document.getElementById(`${selectedImage}-s`).style.opacity = 0;
     }
     tl.to(
-      "#blur",
+      "#tracker",
       {
-        filter: "blur(7vmax)",
-        duration: 0,
+        background: "linear-gradient(to right, aquamarine, mediumpurple)",
+        duration: 1,
+        ease: Power4.easeIn,
       },
       0
     )
-      .to(
-        "#tracker",
-        {
-          zIndex: -999,
-          duration: 0,
-        },
-        0
-      )
-      .to(
-        "#tracker",
-        {
-          background: "linear-gradient(to right, aquamarine, mediumpurple)",
-          height: "20vmax",
-          duration: 1,
-          ease: Power4.easeIn,
-        },
-        0
-      )
       .to("#plus", {
         scale: 0,
         duration: 0.6,
         ease: Power2.easeIn,
       })
       .to(
-        images,
+        fakeImage,
+        {
+          top: "-110vh",
+          duration: 0.8,
+          ease: Power2.easeIn,
+        },
+        0
+      )
+      .to(
+        [images],
         {
           y: -window.innerHeight,
           duration: 0.8,
@@ -618,7 +672,6 @@ const Landing = () => {
           ease: Power2.easeIn,
           onComplete: () => {
             scrollToTop(0);
-            console.log("s");
           },
         },
 
@@ -635,6 +688,7 @@ const Landing = () => {
     const tl = gsap.timeline();
     const track = document.getElementById("image-track");
     const images = gsap.utils.toArray(".image");
+    const fakeImage = document.getElementById(`${selectedImage}-f`);
     setTimeout(() => {
       if (selectedImage != "null") {
         document.getElementById(selectedImage).style.opacity = 0;
@@ -652,6 +706,15 @@ const Landing = () => {
       },
       0
     )
+      .to(
+        fakeImage,
+        {
+          top: "-2.5vh",
+          duration: 0.8,
+          ease: Power4.easeIn,
+        },
+        1.6
+      )
       .to(
         "#blur",
         {
@@ -812,10 +875,10 @@ const Landing = () => {
       .to(
         newImage,
         {
-          width: "100vw",
-          height: "100vh",
-          top: 0,
-          left: 0,
+          width: "105vw",
+          height: "105vh",
+          top: "-2.5vh",
+          left: "-2.5vw",
           duration: 1.8,
           ease: Power4.easeOut,
           // onComplete: () => newImage.classList.add("image-f")
@@ -825,10 +888,10 @@ const Landing = () => {
       .to(
         ".image-f",
         {
-          width: "100vw",
-          height: "100vh",
+          width: "105vw",
+          height: "105vh",
           position: "fixed",
-          left: "100vw",
+          left: "190vw",
           duration: 0,
           opacity: 1,
         },
@@ -1190,7 +1253,9 @@ const Landing = () => {
       </section>
 
       <section>
-        <div id="tracker"></div>
+        <div id="tracker" rotate="F">
+          <i id="tracker-icon" className="fa-solid fa-arrow-right-long"></i>
+        </div>
         <div id="blur"></div>
       </section>
     </div>
