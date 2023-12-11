@@ -8,9 +8,9 @@ body {
   font-family: "Urbanist", sans-serif;
   z-index: -5;
 }
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 0;
-} */
+}
 #image-track,
 #image-track-2 {
   display: flex;
@@ -22,6 +22,7 @@ body {
   transform: translateY(50%);
   user-select: none;
 }
+
 #image-track > .image,
 #image-track-2 > .image {
   width: 35vmin;
@@ -29,7 +30,10 @@ body {
   object-fit: cover;
   object-position: 100% center;
 }
-
+/* #image-track > .image:hover{
+scale: 1.05;
+transition: 1000ms forwards;
+} */
 #image-track {
   z-index: 5;
 }
@@ -49,12 +53,14 @@ body {
   font-size: 2vw;
   font-weight: 100;
   z-index: 9;
+  opacity: 0;
 }
 #navbar {
   font-size: 1.5vw;
   font-weight: 400;
   position: fixed;
   top: 3vh;
+  opacity: 0;
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
@@ -69,6 +75,7 @@ body {
   color: whitesmoke;
   font-size: 1vw; /* transfer into vw */
   font-weight: 400;
+  opacity: 0;
   position: fixed;
   bottom: 5vh;
   left: 50%;
@@ -110,19 +117,25 @@ body {
 }
 #tracker{
   position: fixed;
-  background: linear-gradient(to right, aquamarine, mediumpurple);
-  height: 20vmax;
+  background: white;
+  /* height: 20vmax; */
+  height: 3vmin;
   aspect-ratio: 1;
   border-radius: 100%;
-  z-index: -101;
+  /* z-index: -101; */
+  z-index: 999;
+  left: 50%;
+  top: -20vmax;
+  animation: rotate 20s infinite;
+  opacity: 1;
+  pointer-events: none;
+  transition: 5000ms ease;
+}
+.icon{
+  position: relative;
   left: 50%;
   top: 50%;
-  translate: -50% -50%;
-  animation: rotate-blob 20s infinite;
-  opacity: 0.8;
-  pointer-events: none;
-  opacity: 0.8;
-  transition: 5000ms ease;
+  transform: translate(-50% , -50%);
 }
 #blur {
   height: 100%;
@@ -131,7 +144,7 @@ body {
   top: 0;
   left: 0;
   z-index: -100;
-  backdrop-filter: blur(7vmax);
+  backdrop-filter: blur(0vmax);
 }
 @keyframes rotate-blob {
   from {
@@ -247,7 +260,7 @@ justify-content: center;
   justify-content: center;
   display: flex;
   height: 100vh;
-  z-index: 8;
+  z-index: 3;
   width: 34%;
 }
 @keyframes background-pan {
@@ -277,6 +290,15 @@ justify-content: center;
     transform: rotate(180deg);
   }
 }
+@keyframes background-pan-blob {
+  from {
+    background-position: 0% 0%;
+  }
+  
+  to {
+    background-position: -200% -200%;
+  }
+}
 #about-3{
 display: flex;
 height: 100vh;
@@ -303,10 +325,12 @@ align-items: center;
     to right,
     rgba(127, 255, 212, 0.877),
     rgba(0, 255, 255, 0.815),
-    rgba(147, 112, 216, 0.772)
+    rgba(127, 255, 212, 0.877)
   );
+  z-index: 40;
+  position: relative;
   background-size: 200%;
-  
+  animation: background-pan-blob 3s linear infinite;
   height: 15vmin;
   width: 15vmin;
   border-radius: 100%;
@@ -348,4 +372,19 @@ a:hover {
   font-weight: lighter;
   text-decoration: none;
   font-size:x-large;
+}
+.loading-screen {
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-bar {
+  width: auto;
+  height: auto;
+  background-color: whitesmoke;
+  display: inline-block;
 }
