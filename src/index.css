@@ -11,6 +11,9 @@ body {
 ::-webkit-scrollbar {
   width: 0;
 }
+.image-f{
+  opacity: 0 !important;
+}
 #image-track,
 #image-track-2 {
   display: flex;
@@ -114,6 +117,19 @@ transition: 1000ms forwards;
   height: 1.8vw;
   object-fit: cover;
   opacity: 0;
+}
+#pic-frame{
+  position: fixed;
+  bottom: calc(5vh - 0.1vw);
+  left: calc(68vw - 0.1vw);
+  height: 1.8vw;
+  width: 3.2vw;
+  z-index: 5;
+  opacity: 0;
+  background: transparent;
+  border-color: whitesmoke;
+  border-width: 0.1vw;
+  border-style: solid;
 }
 #tracker{
   position: fixed;

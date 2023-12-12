@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import gsap, { Power4, Power2 } from "gsap";
+import gsap, { Power4, Power2, Linear } from "gsap";
 import { CustomEase } from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Observer } from "gsap/all";
@@ -8,8 +8,11 @@ const Landing = () => {
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Observer);
   gsap.registerPlugin(CustomEase);
+  let tl;
   const emailAddress = "mohanakrishnang04@gmail.com";
   const mailtoLink = `mailto:${emailAddress}`;
+  const [loaded, setLoaded] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [curNav, setCurNav] = useState("work");
   const [selectedImage, setSelectedImage] = useState("null");
   const [prevImageCord, setPrevImageCord] = useState([]);
@@ -17,57 +20,61 @@ const Landing = () => {
   const [nextImage, setNextImage] = useState("null");
 
   useEffect(() => {
-    const images = document.querySelectorAll("#image-track .image");
-    const tl = gsap.timeline();
-    tl.fromTo(
-      images,
-      {
-        y: "-100vh",
-      },
-      {
-        y: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        opacity: 1,
-        ease: Power4.easeOut,
-      }
-    )
-      .fromTo(
-        "#navbar",
+    if (!loaded) {
+      const images = document.querySelectorAll("#image-track .image");
+      const tlMain = gsap.timeline();
+      tlMain.fromTo(
+        images,
         {
-          y: "-100%",
+          y: "-100vh",
         },
         {
           y: 0,
+          duration: 0.8,
+          stagger: 0.2,
           opacity: 1,
+          ease: Power4.easeOut,
         }
       )
-      .fromTo(
-        "#plus",
-        {
-          scale: 0,
-        },
-        {
-          scale: 1,
-          opacity: 1,
-        }
-      )
-      .fromTo(
-        "#counter",
-        {
-          y: "100%",
-        },
-        {
-          y: 0,
-          opacity: 1,
-        }
-      );
+        .fromTo(
+          "#navbar",
+          {
+            y: "-100%",
+          },
+          {
+            y: 0,
+            opacity: 1,
+          }
+        )
+        .fromTo(
+          "#plus",
+          {
+            scale: 0,
+          },
+          {
+            scale: 1,
+            opacity: 1,
+          }
+        )
+        .fromTo(
+          "#counter",
+          {
+            y: "100%",
+          },
+          {
+            y: 0,
+            opacity: 1,
+          }
+        );
+      setLoaded(true);
+    }
   }, []);
   useEffect(() => {
     const tracker = document.getElementById("tracker");
     const blob = document.getElementById("gitc");
     const blur = document.getElementById("blur");
     const trackerIcon = document.getElementById("tracker-icon");
+    const frame = document.getElementById("pic-frame");
     const validIdsSet = new Set([
       "pic-1",
       "pic-2",
@@ -91,6 +98,15 @@ const Landing = () => {
         { duration: 3000, fill: "forwards" }
       );
       if (curNav == "about") {
+        trackerIcon.animate(
+          {
+            opacity: 0,
+          },
+          {
+            duration: 500,
+            fill: "forwards",
+          }
+        );
         blob.animate(
           {
             transform: `translate(${(clientX * 50) / window.innerWidth}%,${
@@ -102,21 +118,30 @@ const Landing = () => {
             fill: "forwards",
           }
         );
-        setTimeout(() => {
-          blur.style.backdropFilter = "blur(7vmax)"
-        }, 1000);
-        
+
+        blur.style.backdropFilter = "blur(7vmax)";
+
         tracker.style.animation = "rotate 20s infinite";
         tracker.animate(
           {
-            height: "20vmax",
             zIndex: -101,
           },
           {
-            duration: 1000,
+            duration: 100,
             fill: "forwards",
           }
         );
+        setTimeout(() => {
+          tracker.animate(
+            {
+              height: "20vmax",
+            },
+            {
+              duration: 1000,
+              fill: "forwards",
+            }
+          );
+        }, 1000);
       } else {
         blur.style.backdropFilter = "blur(0vmax)";
         tracker.style.animation = "";
@@ -124,10 +149,17 @@ const Landing = () => {
           { height: "3vmin", zIndex: 999 },
           {
             duration: 1000,
-            fill: "forwards",
           }
         );
         if (selectedImage == "null") {
+          if(frame.style.opacity == 1){
+            frame.animate({
+              opacity: 0
+            },{
+              duration: 600,
+              fill: "forwards",
+            })
+          }
           trackerIcon.className = "fa-solid fa-arrow-right-long";
           if (validIdsSet.has(event.target.id)) {
             gsap.to(trackerIcon, {
@@ -177,8 +209,10 @@ const Landing = () => {
         } else {
           const distanceX = (clientX - centerX) / window.innerWidth;
           const distanceY = (clientY - centerY) / window.innerHeight;
+
           gsap.to(trackerIcon, {
             rotate: 0,
+            opacity: 1,
           });
           if (clientX < window.innerWidth / 2) {
             trackerIcon.className = "fa-solid fa-arrow-left";
@@ -204,6 +238,7 @@ const Landing = () => {
             },
             {
               duration: 1500,
+              easing: "ease-out",
               fill: "forwards",
             }
           );
@@ -339,22 +374,24 @@ const Landing = () => {
         const track2 = document.getElementById("image-track-2");
         const smallImage = document.getElementById(`${id}-s`);
         const smallImages = document.querySelectorAll(".image-s");
+        tl?.add(tls);
         const pic = document.getElementById(id);
-        const tl = gsap.timeline({ paused: true });
+        const tls = gsap.timeline({ paused: true });
         const pics = gsap.utils.toArray("#image-track .image");
         const newImage = document.getElementById(`${id}-f`);
         document.body.scrollTo({ top: 0, behavior: "auto" });
         track.dataset.prevPercentage = 0;
-        tl.to(
-          pics,
-          {
-            width: "35vmin",
-            height: "55vmin",
-            duration: 1,
-            ease: Power4.easeIn,
-          },
-          1
-        )
+        tls
+          .to(
+            pics,
+            {
+              width: "35vmin",
+              height: "55vmin",
+              duration: 1,
+              ease: Power4.easeIn,
+            },
+            1
+          )
           .to(
             track,
             {
@@ -370,6 +407,14 @@ const Landing = () => {
             1
           )
           .to(
+            "#pic-frame",
+            {
+              opacity: 0,
+              duration: 0.6,
+            },
+            0
+          )
+          .to(
             pic,
             {
               opacity: 1,
@@ -378,7 +423,7 @@ const Landing = () => {
             0
           )
           .to(
-            smallImages,
+            [smallImage, smallImages],
             {
               opacity: 0,
               duration: 0,
@@ -440,15 +485,19 @@ const Landing = () => {
             wheelSpeed: 0.1,
             tolerance: 10,
             onChangeY: (e) => {
-              console.log(e.event);
-              if (!(e.event instanceof PointerEvent)) {
-                tl.play();
+              if (!(e.event instanceof PointerEvent && !isAnimating)) {
+                ScrollObserver.disable()
+                setIsAnimating(true)
+                tls.play();
                 setTimeout(() => {
                   setSelectedImage("null");
                   setPrevImage("null");
                   setNextImage("null");
                   ScrollObserver.kill();
                 }, 2000);
+              setTimeout(() => {
+                setIsAnimating(false)
+              }, 3500);
               }
             },
             onClick: (e) => {
@@ -462,122 +511,153 @@ const Landing = () => {
               const [prevnextValue, prevprevValue] = getNextAndPrev(prevValue);
               const tll = gsap.timeline();
               tll.clear();
-              if (e.x > window.innerWidth / 2) {
-                pic.style.opacity = 1;
-                smallImage.style.opacity = 0;
-                nextimage.className = curimage.className;
-                curimage.classList.add("image-f");
-                const countValue = numericValue == 8 ? 0 : numericValue;
-                setPrevImage(`pic-${numericValue}`);
-                setSelectedImage(`pic-${nextValue}`);
-                setNextImage(`pic-${nextnextValue}`);
-
-                tll
-                  .to(
-                    curimage,
-                    {
-                      left: "-10vw",
-                      width: "10vw",
-                      objectPosition: "center center",
-                      duration: 2,
-                      objectFit: "cover",
-                      onComplete: () => {
-                        gsap.to(curimage, {
-                          left: "-100vw",
-                          duration: 0,
-                        });
+              if (curNav == "work") {
+                if (e.x > window.innerWidth / 2) {
+                  pic.style.opacity = 1;
+                  smallImage.style.opacity = 0;
+                  nextimage.className = ".image";
+                  nextimage.dataset.isonscreen = "true";
+                  curimage.dataset.isonscreen = "false";
+                  const countValue = numericValue == 8 ? 0 : numericValue;
+                  const frameValue = numericValue == 8 ? 0 : numericValue;
+                  setPrevImage(`pic-${numericValue}`);
+                  setSelectedImage(`pic-${nextValue}`);
+                  setNextImage(`pic-${nextnextValue}`);
+                  tll
+                    .to(
+                      curimage,
+                      {
+                        left: "-107.5vw",
+                        width: "105vw",
+                        objectPosition: "center center",
+                        duration: 1.6,
+                        objectFit: "cover",
+                        onComplete: () => {
+                          if (curimage.dataset.isonscreen == "false") {
+                            console.log("element not ");
+                            curimage.classList.add("image-f");
+                          }
+                          gsap.to(curimage, {
+                            left: "-100vw",
+                            opacity: 0,
+                            duration: 0,
+                          });
+                        },
+                        ease: Power4.easeOut,
                       },
-                      ease: Power4.easeOut,
-                    },
-                    0
-                  )
-                  .fromTo(
-                    nextimage,
-                    {
-                      width: "10vw",
-                      left: "100vw",
-                      objectFit: "cover",
-                      objectPosition: "center center",
-                      top: 0,
-                    },
-                    {
-                      opacity: 1,
-                      left: "-2.5vw",
-                      width: "105vw",
-                      top: "-2.5vh",
-                      height: "105vh",
-                      objectPosition: "center center",
-                      objectFit: "cover",
-                      duration: 1.6,
-                      ease: Power4.easeOut,
-                    },
-                    0
-                  )
-                  .to(
-                    "#count",
-                    {
-                      y: -window.innerWidth * countValue * 0.01,
-                      duration: 0.8,
-                      ease: Power4.easeOut,
-                    },
-                    0
-                  );
-              } else if (e?.x <= window.innerWidth / 2) {
-                pic.style.opacity = 1;
-                smallImage.style.opacity = 0;
-                previmage.className = curimage.className;
-                curimage.classList.add("image-f");
-                const countValue = prevValue == 1 ? 0 : prevValue - 1;
-                setPrevImage(`pic-${prevprevValue}`);
-                setSelectedImage(`pic-${prevValue}`);
-                setNextImage(`pic-${numericValue}`);
-
-                tll
-                  .to(
-                    curimage,
-                    {
-                      left: "110vw",
-                      width: "10vw",
-                      duration: 2.5,
-                      objectFit: "cover",
-                      ease: Power4.easeOut,
-                      onComplete: () => {
-                        gsap.to(curimage, {
-                          left: "190vw",
-                          duration: 0,
-                        });
+                      0
+                    )
+                    .fromTo(
+                      nextimage,
+                      {
+                        width: "100vw",
+                        left: "102.5vw",
+                        objectFit: "cover",
+                        top: 0,
                       },
-                    },
-                    0
-                  )
-                  .fromTo(
-                    previmage,
-                    {
-                      left: "-10vw",
-                      width: "10vw",
-                      opacity: 1,
-                      top: 0,
-                    },
-                    {
-                      opacity: 1,
-                      left: "-2.5vw",
-                      width: "105vw",
-                      height: "105vh",
-                      top: "-2.5vh",
-                      duration: 1.6,
-                      ease: Power4.easeOut,
-                    },
-                    0
-                  )
-                  .to(
-                    "#count",
-                    {
-                      y: -window.innerWidth * countValue * 0.01,
-                      duration: 0.8,
-                      ease: Power4.easeOut,
-                    },
-                    0
-                  );
+                      {
+                        opacity: 1,
+                        left: "-2.5vw",
+                        width: "105vw",
+                        top: "-2.5vh",
+                        height: "105vh",
+                        objectFit: "cover",
+                        duration: 1.6,
+                        ease: Power4.easeOut,
+                      },
+                      0
+                    )
+                    .to(
+                      "#count",
+                      {
+                        y: -window.innerWidth * countValue * 0.01,
+                        duration: 0.8,
+                        ease: Power4.easeOut,
+                      },
+                      0
+                    )
+                    .to(
+                      "#pic-frame",
+                      {
+                        left: `${68 + frameValue * 3.4}vw`,
+                        duration: 0.8,
+                        ease: Power4.easeOut,
+                      },
+                      0
+                    );
+                } else if (e?.x <= window.innerWidth / 2) {
+                  pic.style.opacity = 1;
+                  smallImage.style.opacity = 0;
+                  previmage.className = ".image";
+                  previmage.dataset.isonscreen = "true";
+                  curimage.dataset.isonscreen = "false";
+                  const countValue = prevValue == 1 ? 0 : prevValue - 1;
+                  const frameValue = prevValue == 1 ? 0 : prevValue - 1;
+                  setPrevImage(`pic-${prevprevValue}`);
+                  setSelectedImage(`pic-${prevValue}`);
+                  setNextImage(`pic-${numericValue}`);
+
+                  tll
+                    .to(
+                      curimage,
+                      {
+                        left: "102.5vw",
+                        width: "105vw",
+                        duration: 1.6,
+                        objectFit: "cover",
+                        ease: Power4.easeOut,
+                        onComplete: () => {
+                          if (curimage.dataset.isonscreen == "false") {
+                            console.log("element not ");
+                            curimage.classList.add("image-f");
+                          }
+                          gsap.to(curimage, {
+                            left: "190vw",
+                            opacity: 0,
+                            duration: 0,
+                          });
+                        },
+                      },
+                      0
+                    )
+                    .fromTo(
+                      previmage,
+                      {
+                        left: "-107.5vw",
+                        width: "105vw",
+                        opacity: 1,
+                        top: 0,
+                      },
+                      {
+                        opacity: 1,
+                        left: "-2.5vw",
+                        width: "105vw",
+                        height: "105vh",
+                        top: "-2.5vh",
+                        duration: 1.6,
+                        ease: Power4.easeOut,
+                      },
+                      0
+                    )
+                    .to(
+                      "#count",
+                      {
+                        y: -window.innerWidth * countValue * 0.01,
+                        duration: 0.8,
+                        ease: Power4.easeOut,
+                      },
+                      0
+                    )
+                    .to(
+                      "#pic-frame",
+                      {
+                        left: `${68 + frameValue * 3.4}vw`,
+                        duration: 0.8,
+                        ease: Power4.easeOut,
+                      },
+                      0
+                    );
+                }
               }
             },
           });
@@ -624,27 +704,58 @@ const Landing = () => {
 
   function showAbout() {
     Observer.getById("showPicObserver")?.disable();
-    const tl = gsap.timeline();
+    tl?.add(tla);
+    const tla = gsap.timeline();
     const images = gsap.utils.toArray(".image:not(.image-f, .image-s)");
     const fakeImage = document.getElementById(`${selectedImage}-f`);
     if (selectedImage != "null") {
       document.getElementById(selectedImage).style.opacity = 1;
       document.getElementById(`${selectedImage}-s`).style.opacity = 0;
     }
-    tl.to(
-      "#tracker",
-      {
-        background: "linear-gradient(to right, aquamarine, mediumpurple)",
-        duration: 1,
-        ease: Power4.easeIn,
-      },
-      0
-    )
-      .to("#plus", {
-        scale: 0,
-        duration: 0.6,
-        ease: Power2.easeIn,
-      })
+    tla
+      .to(
+        "#tracker",
+        {
+          opacity: 0,
+          background: "linear-gradient(to right, aquamarine, mediumpurple)",
+          duration: 0.5,
+          ease: Power4.easeIn,
+        },
+        0
+      )
+      .to(
+        "#blur",
+        {
+          filter: "blur(7vmax)",
+          duration: 0.1,
+        },
+        0.5
+      )
+      .to(
+        "#tracker",
+        {
+          height: "20vmax",
+          zIndex: -101,
+          duration: 0.1,
+        },
+        0.5
+      )
+      .to(
+        "#tracker",
+        {
+          opacity: 1,
+        },
+        0.7
+      )
+      .to(
+        "#plus",
+        {
+          scale: 0,
+          duration: 0.6,
+          ease: Power2.easeIn,
+        },
+        0
+      )
       .to(
         fakeImage,
         {
@@ -677,35 +788,43 @@ const Landing = () => {
 
         0.4
       )
-      .to("#about-me", {
-        opacity: 1,
-        duration: 0.8,
-        ease: Power2.easeOut,
-      });
+      .to(
+        "#about-me",
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: Power2.easeOut,
+        },
+        1.4
+      )
+      .to(
+        "#pic-frame",
+        {
+          opacity: 0,
+          duration: 0.6,
+        },
+        0
+      );
   }
   function showWork() {
     Observer.getById("showPicObserver")?.enable();
-    const tl = gsap.timeline();
+    tl?.add(tlw);
+    const tlw = gsap.timeline();
     const track = document.getElementById("image-track");
-    const images = gsap.utils.toArray(".image");
+    const images = gsap.utils.toArray(".image:not(.image-s , .image-f");
     const fakeImage = document.getElementById(`${selectedImage}-f`);
-    setTimeout(() => {
-      if (selectedImage != "null") {
-        document.getElementById(selectedImage).style.opacity = 0;
-        document.getElementById(`${selectedImage}-s`).style.opacity = 1;
-      }
-    }, 1600);
-    tl.to(
-      "#tracker",
-      {
-        background: "white",
-        height: "3vmin",
-        zIndex: 999,
-        duration: 1,
-        ease: Power4.easeIn,
-      },
-      0
-    )
+    tlw
+      .to(
+        "#tracker",
+        {
+          background: "white",
+          height: "3vmin",
+          zIndex: 999,
+          duration: 1,
+          ease: Power4.easeIn,
+        },
+        0
+      )
       .to(
         fakeImage,
         {
@@ -733,18 +852,22 @@ const Landing = () => {
         },
         1
       )
-      .to("#plus", {
-        onStart: () => {
-          scrollToTop(
-            (document.documentElement.scrollHeight *
-              track.dataset.prevPercentage) /
-              -90
-          );
+      .to(
+        "#plus",
+        {
+          onStart: () => {
+            scrollToTop(
+              (document.documentElement.scrollHeight *
+                track.dataset.prevPercentage) /
+                -90
+            );
+          },
+          scale: 1,
+          duration: 0.6,
+          ease: Power2.easeOut,
         },
-        scale: 1,
-        duration: 0.6,
-        ease: Power2.easeOut,
-      })
+        1.6
+      )
       .to(
         images,
         {
@@ -752,8 +875,21 @@ const Landing = () => {
           duration: 0.8,
           stagger: 0.05,
           ease: Power2.easeOut,
+          onComplete: () => {
+            if(selectedImage !== "null"){
+              gsap.to(
+                "#pic-frame",
+                {
+                  opacity: 1,
+                  duration: 0.6,
+                },
+                1.6
+              );
+            }
+           
+          }
         },
-        0.8
+        1.6
       )
       .to(
         "#counter",
@@ -762,11 +898,11 @@ const Landing = () => {
           duration: 0.8,
           ease: Power2.easeOut,
         },
-        0.8
-      );
+        1.6
+      )
+      
   }
   function scrollToTop(y) {
-    console.log(y);
     window.scrollTo({
       top: y,
       behavior: "auto", // You can use "auto" or "smooth" for scrolling behavior
@@ -775,16 +911,18 @@ const Landing = () => {
   function showPicSmall(id) {
     console.log("S", id);
   }
-  function showPicFake(id) {
-    console.log("F", id);
-  }
   function showPic(id) {
     setSelectedImage(id);
+    setIsAnimating(true)
+    setTimeout(() => {
+      setIsAnimating(false)
+    }, 1600);
     const track = document.getElementById("image-track");
     const smallImage = document.getElementById(`${id}-s`);
     const track2 = document.getElementById("image-track-2");
     const pic = document.getElementById(id);
-    const tl = gsap.timeline();
+    tl?.add(tlp);
+    const tlp = gsap.timeline();
     const pics = gsap.utils.toArray("#image-track .image");
     const newImage = document.getElementById(`${id}-f`);
     track2.removeChild(newImage);
@@ -804,22 +942,24 @@ const Landing = () => {
     const match = id.match(/(\d+)$/);
     const numericValue = match ? parseFloat(match[1]) : 0;
     const [nextimage, previmage] = getNextAndPrev(numericValue);
+    const frameValue = numericValue - 1;
     setPrevImage(`pic-${previmage}`);
     setNextImage(`pic-${nextimage}`);
-    tl.to(
-      track,
-      {
-        width: "27vw",
-        gap: "0.2vw",
-        height: "1.8vw",
-        bottom: "5vh",
-        left: "68vw",
-        transform: "translate(0,0)",
-        duration: 1.4,
-        ease: Power4.easeOut,
-      },
-      0
-    )
+    tlp
+      .to(
+        track,
+        {
+          width: "27vw",
+          gap: "0.2vw",
+          height: "1.8vw",
+          bottom: "5vh",
+          left: "68vw",
+          transform: "translate(0,0)",
+          duration: 1.4,
+          ease: Power4.easeOut,
+        },
+        0
+      )
       .to(
         pics,
         {
@@ -844,7 +984,38 @@ const Landing = () => {
           y: "5vh",
           opacity: 0,
         },
-        { y: 0, duration: 0.6, opacity: 1, ease: Power4.easeOut },
+        {
+          y: 0,
+          duration: 0.6,
+          opacity: 1,
+          ease: Power4.easeOut,
+          onComplete: () => {
+            gsap.to(pic, {
+              opacity: 1,
+              duration: 0,
+            });
+            gsap.to(smallImage, {
+              opacity: 0,
+              duration: 0,
+            });
+          },
+        },
+        0.8
+      )
+      .fromTo(
+        "#pic-frame",
+        {
+          y: "5vh",
+          opacity: 0,
+          left: `${68 + frameValue * 3.4}vw`,
+        },
+        {
+          y: 0,
+          duration: 0.6,
+          opacity: 1,
+          left: `${68 + frameValue * 3.4}vw`,
+          ease: Power4.easeOut,
+        },
         0.8
       )
       .to(
@@ -914,13 +1085,7 @@ const Landing = () => {
           ease: Power2.easeOut,
         },
         0
-      )
-      .to(pic, {
-        opacity: 1,
-      })
-      .to(smallImage, {
-        opacity: 0,
-      });
+      );
   }
   return (
     <div>
@@ -934,7 +1099,7 @@ const Landing = () => {
           <img
             id="pic-1"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-1")}
+            onClick={() => !isAnimating && showPic("pic-1")}
             src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -943,7 +1108,7 @@ const Landing = () => {
           <img
             id="pic-2"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-2")}
+            onClick={() => !isAnimating && showPic("pic-2")}
             src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -952,7 +1117,7 @@ const Landing = () => {
           <img
             id="pic-3"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-3")}
+            onClick={() => !isAnimating && showPic("pic-3")}
             src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -961,7 +1126,7 @@ const Landing = () => {
           <img
             id="pic-4"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-4")}
+            onClick={() => !isAnimating && showPic("pic-4")}
             src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -970,7 +1135,7 @@ const Landing = () => {
           <img
             id="pic-5"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-5")}
+            onClick={() => !isAnimating && showPic("pic-5")}
             src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -979,7 +1144,7 @@ const Landing = () => {
           <img
             id="pic-6"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-6")}
+            onClick={() => !isAnimating && showPic("pic-6")}
             src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -988,7 +1153,7 @@ const Landing = () => {
           <img
             id="pic-7"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-7")}
+            onClick={() => !isAnimating && showPic("pic-7")}
             src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -997,7 +1162,7 @@ const Landing = () => {
           <img
             id="pic-8"
             crossOrigin="anonymous"
-            onClick={() => showPic("pic-8")}
+            onClick={() => !isAnimating && showPic("pic-8")}
             src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt=""
             className="image"
@@ -1203,55 +1368,65 @@ const Landing = () => {
         <div id="image-track-2" data-mouse-down-at="0" data-prev-percentage="0">
           <img
             id="pic-1-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
           <img
             id="pic-2-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
           <img
             id="pic-3-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
           <img
             id="pic-4-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
           <img
             id="pic-5-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
           <img
             id="pic-6-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
           <img
             id="pic-7-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
           <img
             id="pic-8-f"
+            data-isonscreen="false"
             src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             className="image image-f"
             draggable="false"
           />
         </div>
       </section>
-
+      <section>
+        <div id="pic-frame"></div>
+      </section>
       <section>
         <div id="tracker" rotate="F">
           <i id="tracker-icon" className="fa-solid fa-arrow-right-long"></i>
