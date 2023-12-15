@@ -149,6 +149,7 @@ const Landing = () => {
           { height: "3vmin", zIndex: 999 },
           {
             duration: 1000,
+            fill : "forwards"
           }
         );
         if (selectedImage == "null") {
