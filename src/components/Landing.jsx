@@ -1,21 +1,67 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
-import gsap, { Power4, Power2, Linear } from "gsap";
+import gsap, { Power4, Power2 } from "gsap";
 import { CustomEase } from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Observer } from "gsap/all";
+import Work from "./Work";
+import About from "./About";
+import Tracks from "./Tracks";
+import Frame from "./Frame";
+import Tracker from "./Tracker";
+import Navbar from "./Navbar";
+import Plus from "./Plus";
+import Counter from "./Counter";
 
 const Landing = () => {
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Observer);
   gsap.registerPlugin(CustomEase);
   let tl;
-  const emailAddress = "mohanakrishnang04@gmail.com";
+  //Content
+  const emailAddress = "mohanakrishnang05@gmail.com";
+  const navName = "Mohana krishnan";
+  const pic1Source =
+    "https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic2Source =
+    "https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic3Source =
+    "https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic4Source =
+    "https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic5Source =
+    "https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic6Source =
+    "https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic7Source =
+    "https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic8Source =
+    "https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const about1Line1 = "Hi I am Mohan, As a ";
+  const about1Highlight1 = "photographer";
+  const about1Line2 =
+    "I am dedicated to transforming ordinary moments into extraordinary";
+  const about2Highlight2 = "memories.";
+  const about1ImageSource =
+    "https://images.unsplash.com/photo-1526089571952-1b2803457035?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const about2ImageSource2 =
+    "https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const about2HeadingText = "My Lens, ";
+  const about2HeadingHighlight = "Your Story";
+  const about2Paragraph =
+    "With a passion for capturing fleeting moments and transforming them into lasting memories, I embark on a visual journey, guided by the light and emotions that surround me. My photography transcends mere images, weaving together narratives that resonate with viewers on a deeper level. Whether it's the raw energy of a live performance, the quiet intimacy of a wedding, or the timeless beauty of a landscape, I strive to create images that reflect the essence of the subject and evoke a sense of connection.";
+  const about3Line1 = "If you are looking to";
+  const about3Line2 = "discuss a project or just";
+  const about3Line3 = "talk photography";
+  const linkedInLink = "https://linkedin.com";
+  const instagramLink = "https://instagram.com";
+  const twitterLink = "http://twitter.com";
+
   const mailtoLink = `mailto:${emailAddress}`;
   const [loaded, setLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [curNav, setCurNav] = useState("work");
   const [selectedImage, setSelectedImage] = useState("null");
-  const [prevImageCord, setPrevImageCord] = useState([]);
   const [prevImage, setPrevImage] = useState("null");
   const [nextImage, setNextImage] = useState("null");
 
@@ -23,19 +69,20 @@ const Landing = () => {
     if (!loaded) {
       const images = document.querySelectorAll("#image-track .image");
       const tlMain = gsap.timeline();
-      tlMain.fromTo(
-        images,
-        {
-          y: "-100vh",
-        },
-        {
-          y: 0,
-          duration: 0.8,
-          stagger: 0.2,
-          opacity: 1,
-          ease: Power4.easeOut,
-        }
-      )
+      tlMain
+        .fromTo(
+          images,
+          {
+            y: "-100vh",
+          },
+          {
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            opacity: 1,
+            ease: Power4.easeOut,
+          }
+        )
         .fromTo(
           "#navbar",
           {
@@ -68,185 +115,7 @@ const Landing = () => {
         );
       setLoaded(true);
     }
-  }, []);
-  useEffect(() => {
-    const tracker = document.getElementById("tracker");
-    const blob = document.getElementById("gitc");
-    const blur = document.getElementById("blur");
-    const trackerIcon = document.getElementById("tracker-icon");
-    const frame = document.getElementById("pic-frame");
-    const validIdsSet = new Set([
-      "pic-1",
-      "pic-2",
-      "pic-3",
-      "pic-4",
-      "pic-5",
-      "pic-6",
-      "pic-7",
-      "pic-8",
-    ]);
-    const selectedPic = document.getElementById(`${selectedImage}-f`);
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    window.onpointermove = (event) => {
-      const { clientX, clientY } = event;
-      tracker.animate(
-        {
-          left: `${clientX - tracker.offsetWidth / 2}px`,
-          top: `${clientY - tracker.offsetHeight / 2}px`,
-        },
-        { duration: 3000, fill: "forwards" }
-      );
-      if (curNav == "about") {
-        trackerIcon.animate(
-          {
-            opacity: 0,
-          },
-          {
-            duration: 500,
-            fill: "forwards",
-          }
-        );
-        blob.animate(
-          {
-            transform: `translate(${(clientX * 50) / window.innerWidth}%,${
-              (clientY * 50) / window.innerHeight
-            }%)`,
-          },
-          {
-            duration: 3000,
-            fill: "forwards",
-          }
-        );
-
-        blur.style.backdropFilter = "blur(7vmax)";
-
-        tracker.style.animation = "rotate 20s infinite";
-        tracker.animate(
-          {
-            zIndex: -101,
-          },
-          {
-            duration: 100,
-            fill: "forwards",
-          }
-        );
-        setTimeout(() => {
-          tracker.animate(
-            {
-              height: "20vmax",
-            },
-            {
-              duration: 1000,
-              fill: "forwards",
-            }
-          );
-        }, 1000);
-      } else {
-        blur.style.backdropFilter = "blur(0vmax)";
-        tracker.style.animation = "";
-        tracker.animate(
-          { height: "3vmin", zIndex: 999 },
-          {
-            duration: 1000,
-            fill : "forwards"
-          }
-        );
-        if (selectedImage == "null") {
-          if(frame.style.opacity == 1){
-            frame.animate({
-              opacity: 0
-            },{
-              duration: 600,
-              fill: "forwards",
-            })
-          }
-          trackerIcon.className = "fa-solid fa-arrow-right-long";
-          if (validIdsSet.has(event.target.id)) {
-            gsap.to(trackerIcon, {
-              rotate: -45,
-            });
-            tracker.animate(
-              {
-                scale: 1.5,
-              },
-              {
-                duration: 500,
-                fill: "forwards",
-              }
-            );
-            trackerIcon.animate(
-              {
-                opacity: 1,
-              },
-              {
-                duration: 500,
-                fill: "forwards",
-              }
-            );
-          } else {
-            gsap.to(trackerIcon, {
-              rotate: 0,
-            });
-            tracker.animate(
-              {
-                scale: 1,
-              },
-              {
-                duration: 500,
-                fill: "forwards",
-              }
-            );
-            trackerIcon.animate(
-              {
-                opacity: 0,
-              },
-              {
-                duration: 500,
-                fill: "forwards",
-              }
-            );
-          }
-        } else {
-          const distanceX = (clientX - centerX) / window.innerWidth;
-          const distanceY = (clientY - centerY) / window.innerHeight;
-
-          gsap.to(trackerIcon, {
-            rotate: 0,
-            opacity: 1,
-          });
-          if (clientX < window.innerWidth / 2) {
-            trackerIcon.className = "fa-solid fa-arrow-left";
-          } else {
-            trackerIcon.className = "fa-solid fa-arrow-right";
-          }
-          // Use distance values in the translate function
-          const transformValue = `translate(${distanceX * 2.5}%, ${
-            distanceY * 2.5
-          }%)`;
-          tracker.animate(
-            {
-              scale: 1,
-            },
-            {
-              duration: 500,
-              fill: "forwards",
-            }
-          );
-          selectedPic.animate(
-            {
-              transform: transformValue,
-            },
-            {
-              duration: 1500,
-              easing: "ease-out",
-              fill: "forwards",
-            }
-          );
-        }
-      }
-    };
-  }, [curNav, selectedImage]);
+  }, [loaded]);
   function getNextAndPrev(currentValue) {
     const maxValue = 8; // Assuming the maximum value is 8
     const nextValue = (currentValue % maxValue) + 1;
@@ -487,8 +356,8 @@ const Landing = () => {
             tolerance: 10,
             onChangeY: (e) => {
               if (!(e.event instanceof PointerEvent && !isAnimating)) {
-                ScrollObserver.disable()
-                setIsAnimating(true)
+                ScrollObserver.disable();
+                setIsAnimating(true);
                 tls.play();
                 setTimeout(() => {
                   setSelectedImage("null");
@@ -496,9 +365,9 @@ const Landing = () => {
                   setNextImage("null");
                   ScrollObserver.kill();
                 }, 2000);
-              setTimeout(() => {
-                setIsAnimating(false)
-              }, 3500);
+                setTimeout(() => {
+                  setIsAnimating(false);
+                }, 3500);
               }
             },
             onClick: (e) => {
@@ -508,6 +377,7 @@ const Landing = () => {
               const match = selectedImage.match(/(\d+)$/);
               const numericValue = match ? parseFloat(match[1]) : 0;
               const [nextValue, prevValue] = getNextAndPrev(numericValue);
+              // eslint-disable-next-line no-unused-vars
               const [nextnextValue, nextprevValue] = getNextAndPrev(nextValue);
               const [prevnextValue, prevprevValue] = getNextAndPrev(prevValue);
               const tll = gsap.timeline();
@@ -535,7 +405,6 @@ const Landing = () => {
                         objectFit: "cover",
                         onComplete: () => {
                           if (curimage.dataset.isonscreen == "false") {
-                            console.log("element not ");
                             curimage.classList.add("image-f");
                           }
                           gsap.to(curimage, {
@@ -701,6 +570,7 @@ const Landing = () => {
         }, index++ * (interval / 9));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curNav, selectedImage]);
 
   function showAbout() {
@@ -877,7 +747,7 @@ const Landing = () => {
           stagger: 0.05,
           ease: Power2.easeOut,
           onComplete: () => {
-            if(selectedImage !== "null"){
+            if (selectedImage !== "null") {
               gsap.to(
                 "#pic-frame",
                 {
@@ -887,8 +757,7 @@ const Landing = () => {
                 1.6
               );
             }
-           
-          }
+          },
         },
         1.6
       )
@@ -900,8 +769,7 @@ const Landing = () => {
           ease: Power2.easeOut,
         },
         1.6
-      )
-      
+      );
   }
   function scrollToTop(y) {
     window.scrollTo({
@@ -914,9 +782,9 @@ const Landing = () => {
   }
   function showPic(id) {
     setSelectedImage(id);
-    setIsAnimating(true)
+    setIsAnimating(true);
     setTimeout(() => {
-      setIsAnimating(false)
+      setIsAnimating(false);
     }, 1600);
     const track = document.getElementById("image-track");
     const smallImage = document.getElementById(`${id}-s`);
@@ -937,7 +805,6 @@ const Landing = () => {
     newImage.style.position = "fixed";
     newImage.style.top = rect.top + "px";
     newImage.style.left = rect.left + "px";
-    setPrevImageCord([newImage.style.top, newImage.style.left]);
     newImage.className = pic.className;
     newImage.style.objectPosition = pic.style.objectPosition;
     const match = id.match(/(\d+)$/);
@@ -1089,352 +956,61 @@ const Landing = () => {
       );
   }
   return (
-    <div>
-      <section className="wrapper">
-        <div
-          id="image-track"
-          className=""
-          data-mouse-down-at="0"
-          data-prev-percentage={0}
-        >
-          <img
-            id="pic-1"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-1")}
-            src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-          <img
-            id="pic-2"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-2")}
-            src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-          <img
-            id="pic-3"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-3")}
-            src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-          <img
-            id="pic-4"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-4")}
-            src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-          <img
-            id="pic-5"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-5")}
-            src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-          <img
-            id="pic-6"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-6")}
-            src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-          <img
-            id="pic-7"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-7")}
-            src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-          <img
-            id="pic-8"
-            crossOrigin="anonymous"
-            onClick={() => !isAnimating && showPic("pic-8")}
-            src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image"
-            draggable="false"
-          />
-        </div>
-      </section>
-      <p id="plus">+</p>
-      <p id="navbar">
-        <span
-          id="work"
-          onClick={() => {
-            setCurNav("work");
-            showWork();
-          }}
-        >
-          Work
-        </span>{" "}
-        <span
-          id="about"
-          onClick={() => {
-            setCurNav("about");
-            showAbout();
-          }}
-        >
-          About
-        </span>
-      </p>
-      <section id="counter">
-        <p id="count">
-          <span id="1">1</span>
-          <span id="2">2</span>
-          <span id="3">3</span>
-          <span id="4">4</span>
-          <span id="5">5</span>
-          <span id="6">6</span>
-          <span id="7">7</span>
-          <span id="8">8</span>
-        </p>
-        <p>-</p>
-        <p>8</p>
-      </section>
-      <section id="about-me">
-        <div id="about-1">
-          <div id="intro">
-            <p>
-              Hi I am Mohan, As a{" "}
-              <span className="magic-star">
-                <svg viewBox="0 0 512 512">
-                  <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
-                </svg>
-              </span>
-              <span className="magic-star">
-                <svg viewBox="0 0 512 512">
-                  <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
-                </svg>
-              </span>
-              <span className="magic-star">
-                <svg viewBox="0 0 512 512">
-                  <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
-                </svg>
-              </span>
-              <span className="color-text">photographer</span> I am dedicated to
-              transforming ordinary moments into extraordinary{" "}
-              <span className="color-text">memories.</span>
-            </p>
-          </div>
-          <div id="about-pic">
-            <img
-              id="photographer"
-              src="https://images.unsplash.com/photo-1526089571952-1b2803457035?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-            />
-          </div>
-        </div>
-        <div id="about-2">
-          <div id="about-pic-2">
-            <img
-              id="photographer-2"
-              src="https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt=""
-            />
-          </div>
-          <div id="intro-2">
-            <h2>
-              My Lens, <span className="color-text">Your Story</span>
-            </h2>
-            <span className="magic-star">
-              <svg viewBox="0 0 512 512">
-                <path d="M512 255.1c0 11.34-7.406 20.86-18.44 23.64l-171.3 42.78l-42.78 171.1C276.7 504.6 267.2 512 255.9 512s-20.84-7.406-23.62-18.44l-42.66-171.2L18.47 279.6C7.406 276.8 0 267.3 0 255.1c0-11.34 7.406-20.83 18.44-23.61l171.2-42.78l42.78-171.1C235.2 7.406 244.7 0 256 0s20.84 7.406 23.62 18.44l42.78 171.2l171.2 42.78C504.6 235.2 512 244.6 512 255.1z" />
-              </svg>
-            </span>
-            <p>
-              With a passion for capturing fleeting moments and transforming
-              them into lasting memories, I embark on a visual journey, guided
-              by the light and emotions that surround me. My photography
-              transcends mere images, weaving together narratives that resonate
-              with viewers on a deeper level. Whether it's the raw energy of a
-              live performance, the quiet intimacy of a wedding, or the timeless
-              beauty of a landscape, I strive to create images that reflect the
-              essence of the subject and evoke a sense of connection.
-            </p>
-          </div>
-        </div>
-        <div id="about-3">
-          <p id="gitp">
-            <span>If you are looking to</span>{" "}
-            <span>discuss a project or just</span> <span>talk photography</span>
-          </p>
-          <div id="gitd">
-            {" "}
-            <div
-              id="gitc"
-              onClick={() => {
-                window.location.href = mailtoLink;
-              }}
-            >
-              <span>Get</span>
-              <span>in</span>
-              <span>touch</span>
-            </div>
-          </div>
-          <div id="gita">
-            <a href={mailtoLink}>Email</a>
-            <a href="https://linkedin.com">Linked In</a>
-            <a href="https://instagram.com">Instagram</a>
-            <a href="http://twitter.com">Twitter</a>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div
-          id="image-track-small"
-          className=""
-          data-mouse-down-at="0"
-          data-prev-percentage="0"
-        >
-          <img
-            id="pic-1-s"
-            onClick={() => showPicSmall("pic-1-s")}
-            src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-          <img
-            id="pic-2-s"
-            onClick={() => showPicSmall("pic-2-s")}
-            src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-          <img
-            id="pic-3-s"
-            onClick={() => showPicSmall("pic-3-s")}
-            src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-          <img
-            id="pic-4-s"
-            onClick={() => showPicSmall("pic-4-s")}
-            src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-          <img
-            id="pic-5-s"
-            onClick={() => showPicSmall("pic-5-s")}
-            src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-          <img
-            id="pic-6-s"
-            onClick={() => showPicSmall("pic-6-s")}
-            src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-          <img
-            id="pic-7-s"
-            onClick={() => showPicSmall("pic-7-s")}
-            src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-          <img
-            id="pic-8-s"
-            onClick={() => showPicSmall("pic-8-s")}
-            src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-            className="image image-s"
-            draggable="false"
-          />
-        </div>
-        <div id="image-track-2" data-mouse-down-at="0" data-prev-percentage="0">
-          <img
-            id="pic-1-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-          <img
-            id="pic-2-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-          <img
-            id="pic-3-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-          <img
-            id="pic-4-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-          <img
-            id="pic-5-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-          <img
-            id="pic-6-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-          <img
-            id="pic-7-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-          <img
-            id="pic-8-f"
-            data-isonscreen="false"
-            src="https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="image image-f"
-            draggable="false"
-          />
-        </div>
-      </section>
-      <section>
-        <div id="pic-frame"></div>
-      </section>
-      <section>
-        <div id="tracker" rotate="F">
-          <i id="tracker-icon" className="fa-solid fa-arrow-right-long"></i>
-        </div>
-        <div id="blur"></div>
-      </section>
-    </div>
+    <section>
+      <Work
+        isAnimating={isAnimating}
+        showPic={showPic}
+        pic1Source={pic1Source}
+        pic2Source={pic2Source}
+        pic3Source={pic3Source}
+        pic4Source={pic4Source}
+        pic5Source={pic5Source}
+        pic6Source={pic6Source}
+        pic7Source={pic7Source}
+        pic8Source={pic8Source}
+      />
+      <Plus />
+      <Navbar
+        navName={navName}
+        setCurNav={setCurNav}
+        showAbout={showAbout}
+        showWork={showWork}
+        curNav={curNav}
+        selectedImage={selectedImage}
+      />
+      <Counter />
+      <About
+        mailtoLink={mailtoLink}
+        about1Line1={about1Line1}
+        about1Highlight1={about1Highlight1}
+        about1Line2={about1Line2}
+        about2Highlight2={about2Highlight2}
+        about1ImageSource={about1ImageSource}
+        about2ImageSource2={about2ImageSource2}
+        about2HeadingText={about2HeadingText}
+        about2HeadingHighlight={about2HeadingHighlight}
+        about2Paragraph={about2Paragraph}
+        about3Line1={about3Line1}
+        about3Line2={about3Line2}
+        about3Line3={about3Line3}
+        linkedInLink={linkedInLink}
+        instagramLink={instagramLink}
+        twitterLink={twitterLink}
+      />
+      <Tracks
+        showPicSmall={showPicSmall}
+        pic1Source={pic1Source}
+        pic2Source={pic2Source}
+        pic3Source={pic3Source}
+        pic4Source={pic4Source}
+        pic5Source={pic5Source}
+        pic6Source={pic6Source}
+        pic7Source={pic7Source}
+        pic8Source={pic8Source}
+      />
+      <Frame />
+      <Tracker />
+    </section>
   );
 };
 

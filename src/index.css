@@ -11,7 +11,7 @@ body {
 ::-webkit-scrollbar {
   width: 0;
 }
-.image-f{
+.image-f {
   opacity: 0 !important;
 }
 #image-track,
@@ -43,7 +43,7 @@ transition: 1000ms forwards;
 #image-track-2 {
   z-index: 4;
 }
-#image-track-2 > .image{
+#image-track-2 > .image {
   opacity: 0;
 }
 #plus {
@@ -58,19 +58,33 @@ transition: 1000ms forwards;
   z-index: 9;
   opacity: 0;
 }
+#nav-name {
+  color: whitesmoke;
+  text-transform: uppercase;
+  /* width: 60%; */
+  /* font-family: "Urbanist", sans-serif; */
+}
+#nav-pages {
+  display: flex;
+  gap: 4vw;
+  /* width: 40%; */
+}
 #navbar {
   font-size: 1.5vw;
   font-weight: 400;
   position: fixed;
   top: 3vh;
   opacity: 0;
+  width: 90vw;
   left: 50%;
   transform: translate(-50%, 0);
   display: flex;
+  justify-content: space-between;
   gap: 4vw;
   z-index: 100;
 }
-#work , #about{
+#work,
+#about {
   transition: 400ms;
 }
 
@@ -118,7 +132,7 @@ transition: 1000ms forwards;
   object-fit: cover;
   opacity: 0;
 }
-#pic-frame{
+#pic-frame {
   position: fixed;
   bottom: calc(5vh - 0.1vw);
   left: calc(68vw - 0.1vw);
@@ -131,7 +145,7 @@ transition: 1000ms forwards;
   border-width: 0.1vw;
   border-style: solid;
 }
-#tracker{
+#tracker {
   position: fixed;
   background: white;
   /* height: 20vmax; */
@@ -155,11 +169,11 @@ transition: 1000ms forwards;
   opacity: 0;
   transition: opacity 400ms ease;
 }
-.icon{
+.icon {
   position: relative;
   left: 50%;
   top: 50%;
-  transform: translate(-50% , -50%);
+  transform: translate(-50%, -50%);
 }
 #blur {
   height: 100%;
@@ -174,16 +188,17 @@ transition: 1000ms forwards;
   from {
     rotate: 0deg;
   }
-  
+
   50% {
     scale: 1 1.15;
   }
-  
+
   to {
     rotate: 360deg;
   }
 }
-#photographer,#photographer-2{
+#photographer,
+#photographer-2 {
   width: 49vmin;
   height: 77vmin;
   opacity: 1;
@@ -192,7 +207,8 @@ transition: 1000ms forwards;
   object-position: "center center";
   transition: 500ms;
 }
-#about-1 , #about-2 {
+#about-1,
+#about-2 {
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -201,25 +217,27 @@ transition: 1000ms forwards;
   justify-content: center;
 }
 #intro {
-font-size: 3vmax;
-font-weight: 600;
-height: 100vh;
-width: 66%;
-flex-direction: column;
-display: flex;
-line-height: 1.20;
-align-items: flex-start;
-justify-content: center;
-padding: 7vmin;
+  font-size: 3vmax;
+  font-weight: 600;
+  height: 100vh;
+  width: 66%;
+  flex-direction: column;
+  display: flex;
+  line-height: 1.2;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 7vmin;
 }
-:root {  
+:root {
   --purple: aquamarine;
-  --violet:aqua ;
+  --violet: aqua;
   --pink: mediumpurple;
 }
-#intro >p > .color-text , #intro-2> h2 > .color-text{
-  font-weight:bolder;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+#intro > p > .color-text,
+#intro-2 > h2 > .color-text {
+  font-weight: bolder;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
   animation: background-pan 3s linear infinite;
   background: linear-gradient(
     to right,
@@ -255,31 +273,34 @@ padding: 7vmin;
   opacity: 0.7;
 }
 
-#intro>p, #intro-2 >p, #intro-2>h2{
+#intro > p,
+#intro-2 > p,
+#intro-2 > h2 {
   color: whitesmoke;
 }
-#intro-2>h2{
+#intro-2 > h2 {
   font-size: 3vmax;
 }
-#intro-2 > p{
+#intro-2 > p {
   font-size: 3vmin;
   line-height: 1.35;
 }
-#intro-2{
-font-weight: 600;
-height: 100vh;
-padding: 7vmin;
-width: 66%;
-flex-direction: column;
-display: flex;
-line-height: 1.20;
-align-items: flex-start;
-justify-content: center;
+#intro-2 {
+  font-weight: 600;
+  height: 100vh;
+  padding: 7vmin;
+  width: 66%;
+  flex-direction: column;
+  display: flex;
+  line-height: 1.2;
+  align-items: flex-start;
+  justify-content: center;
 }
-#about-me{
+#about-me {
   opacity: 0;
 }
-#about-pic , #about-pic-2{
+#about-pic,
+#about-pic-2 {
   align-items: center;
   justify-content: center;
   display: flex;
@@ -291,16 +312,17 @@ justify-content: center;
   from {
     background-position: 0% center;
   }
-  
+
   to {
     background-position: -200% center;
   }
 }
 @keyframes scale {
-  from, to {
+  from,
+  to {
     transform: scale(0);
   }
-  
+
   50% {
     transform: scale(1);
   }
@@ -309,7 +331,7 @@ justify-content: center;
   from {
     transform: rotate(0deg);
   }
-  
+
   to {
     transform: rotate(180deg);
   }
@@ -318,33 +340,33 @@ justify-content: center;
   from {
     background-position: 0% 0%;
   }
-  
+
   to {
     background-position: -200% -200%;
   }
 }
-#about-3{
-display: flex;
-height: 100vh;
-width: 100vw;
-gap: 10vh;
-color: whitesmoke;
-flex-direction: column;
-justify-content: center;
-align-items: center;
+#about-3 {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  gap: 10vh;
+  color: whitesmoke;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-#gitp{
-  font-size:2.7vmax;
+#gitp {
+  font-size: 2.7vmax;
   font-weight: 600;
   display: flex;
   flex-direction: column;
   text-align: center;
   margin: 0;
 }
-#gitp > span{
+#gitp > span {
   display: inline;
 }
-#gitc{
+#gitc {
   background: linear-gradient(
     to right,
     rgba(127, 255, 212, 0.877),
@@ -363,27 +385,25 @@ align-items: center;
   justify-content: center;
   align-items: center;
 }
-#gitc > span{
+#gitc > span {
   text-transform: uppercase;
   font-weight: lighter;
-  font-size: large;
+  font-size: medium;
 }
 
-#gita{
+#gita {
   display: flex;
   position: absolute;
   /* border: white;
   border-style: dashed; */
-  justify-content:space-evenly;
+  justify-content: space-evenly;
   height: auto;
   width: 50vw;
   top: 290vh;
 }
 a {
-  background: 
-      linear-gradient(currentColor 0 0) 
-      var(--p, 0) 100% /var(--d, 0) 3px 
-      no-repeat;
+  background: linear-gradient(currentColor 0 0) var(--p, 0) 100% / var(--d, 0)
+    3px no-repeat;
   transition: 0.3s, background-position 0s 0.3s;
 }
 a:hover {
@@ -391,11 +411,11 @@ a:hover {
   --p: 100%;
 }
 
-#gita > a{
+#gita > a {
   color: whitesmoke;
   font-weight: lighter;
   text-decoration: none;
-  font-size:x-large;
+  font-size: x-large;
 }
 .loading-screen {
   text-align: center;
