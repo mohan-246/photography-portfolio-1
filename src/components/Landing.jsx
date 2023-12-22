@@ -19,43 +19,57 @@ const Landing = () => {
   gsap.registerPlugin(CustomEase);
   let tl;
   //Content
-  const emailAddress = "mohanakrishnang05@gmail.com";
-  const navName = "Mohana krishnan";
-  const pic1Source =
-    "https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic2Source =
-    "https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic3Source =
-    "https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic4Source =
-    "https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic5Source =
-    "https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic6Source =
-    "https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic7Source =
-    "https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic8Source =
-    "https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const about1Line1 = "Hi I am Mohan, As a ";
-  const about1Highlight1 = "photographer";
-  const about1Line2 =
-    "I am dedicated to transforming ordinary moments into extraordinary";
-  const about2Highlight2 = "memories.";
-  const about1ImageSource =
-    "https://images.unsplash.com/photo-1526089571952-1b2803457035?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const about2ImageSource2 =
-    "https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const about2HeadingText = "My Lens, ";
-  const about2HeadingHighlight = "Your Story";
-  const about2Paragraph =
-    "With a passion for capturing fleeting moments and transforming them into lasting memories, I embark on a visual journey, guided by the light and emotions that surround me. My photography transcends mere images, weaving together narratives that resonate with viewers on a deeper level. Whether it's the raw energy of a live performance, the quiet intimacy of a wedding, or the timeless beauty of a landscape, I strive to create images that reflect the essence of the subject and evoke a sense of connection.";
-  const about3Line1 = "If you are looking to";
-  const about3Line2 = "discuss a project or just";
-  const about3Line3 = "talk photography";
-  const linkedInLink = "https://linkedin.com";
-  const instagramLink = "https://instagram.com";
-  const twitterLink = "http://twitter.com";
+  const [emailAddress, setEmailAddress] = useState(
+    "sample@gmail.com"
+  );
+  const [navName, setNavName] = useState("Mohana krishnan");
+  const [pic1Source, setPic1Source] = useState(
+    "https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [pic2Source, setPic2Source] = useState(
+    "https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [pic3Source, setPic3Source] = useState(
+    "https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [pic4Source, setPic4Source] = useState(
+    "https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [pic5Source, setPic5Source] = useState(
+    "https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [pic6Source, setPic6Source] = useState(
+    "https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [pic7Source, setPic7Source] = useState(
+    "https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [pic8Source, setPic8Source] = useState(
+    "https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [about1Paragraph, setAbout1Paragraph] = useState(
+    "Hi I am Mohan, As a photographer I am dedicated to transforming ordinary moments into extraordinary memories."
+  );
+  const [about1ImageSource, setAbout1ImageSource] = useState(
+    "https://images.unsplash.com/photo-1526089571952-1b2803457035?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [about2ImageSource2, setAbout2ImageSource2] = useState(
+    "https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  );
+  const [about2HeadingText, setAbout2HeadingText] = useState(
+    "My Lens, Your Story"
+  );
+  const [about2HeadingHighlight, setAbout2HeadingHighlight] =
+    useState("Your Story");
+  const [about2Paragraph, setAbout2Paragraph] = useState(
+    "With a passion for capturing fleeting moments and transforming them into lasting memories, I embark on a visual journey, guided by the light and emotions that surround me. My photography transcends mere images, weaving together narratives that resonate with viewers on a deeper level. Whether it's the raw energy of a live performance, the quiet intimacy of a wedding, or the timeless beauty of a landscape, I strive to create images that reflect the essence of the subject and evoke a sense of connection."
+  );
+  const [about3Paragraph, setAbout3Paragraph] = useState(
+    "If you are looking to discuss a project or just talk photography"
+  );
+  const [linkedInLink, setLinkedInLink] = useState("https://linkedin.com");
+  const [instagramLink, setInstagramLink] = useState("https://instagram.com");
+  const [twitterLink, setTwitterLink] = useState("http://twitter.com");
 
   const mailtoLink = `mailto:${emailAddress}`;
   const [loaded, setLoaded] = useState(false);
@@ -578,6 +592,12 @@ const Landing = () => {
     tl?.add(tla);
     const tla = gsap.timeline();
     const images = gsap.utils.toArray(".image:not(.image-f, .image-s)");
+    const track = document.getElementById("image-track");
+    const track2 = document.getElementById("image-track-2");
+    const trackS = document.getElementById("image-track-small");
+    track.style.zIndex = -10;
+    track2.style.zIndex = -11;
+    trackS.style.zIndex = -9;
     const fakeImage = document.getElementById(`${selectedImage}-f`);
     if (selectedImage != "null") {
       document.getElementById(selectedImage).style.opacity = 1;
@@ -682,6 +702,11 @@ const Landing = () => {
     tl?.add(tlw);
     const tlw = gsap.timeline();
     const track = document.getElementById("image-track");
+    const track2 = document.getElementById("image-track-2");
+    const trackS = document.getElementById("image-track-small");
+    trackS.style.zIndex = 99;
+    track.style.zIndex = 5;
+    track2.style.zIndex = 4;
     const images = gsap.utils.toArray(".image:not(.image-s , .image-f");
     const fakeImage = document.getElementById(`${selectedImage}-f`);
     tlw
@@ -972,6 +997,7 @@ const Landing = () => {
       <Plus />
       <Navbar
         navName={navName}
+        setNavName={setNavName}
         setCurNav={setCurNav}
         showAbout={showAbout}
         showWork={showWork}
@@ -980,22 +1006,27 @@ const Landing = () => {
       />
       <Counter />
       <About
+        setEmailAddress={setEmailAddress}
+        emailAddress={emailAddress}
         mailtoLink={mailtoLink}
-        about1Line1={about1Line1}
-        about1Highlight1={about1Highlight1}
-        about1Line2={about1Line2}
-        about2Highlight2={about2Highlight2}
+        about1Paragraph={about1Paragraph}
+        setAbout1Paragraph={setAbout1Paragraph}
         about1ImageSource={about1ImageSource}
+        setAbout1ImageSource={setAbout1ImageSource}
         about2ImageSource2={about2ImageSource2}
+        setAbout2ImageSource2={setAbout2ImageSource2}
         about2HeadingText={about2HeadingText}
-        about2HeadingHighlight={about2HeadingHighlight}
+        setAbout2HeadingText={setAbout2HeadingText}
         about2Paragraph={about2Paragraph}
-        about3Line1={about3Line1}
-        about3Line2={about3Line2}
-        about3Line3={about3Line3}
+        setAbout2Paragraph={setAbout2Paragraph}
+        about3Paragraph={about3Paragraph}
+        setAbout3Paragraph={setAbout3Paragraph}
         linkedInLink={linkedInLink}
+        setLinkedInLink={setLinkedInLink}
         instagramLink={instagramLink}
+        setInstagramLink={setInstagramLink}
         twitterLink={twitterLink}
+        setTwitterLink={setTwitterLink}
       />
       <Tracks
         showPicSmall={showPicSmall}

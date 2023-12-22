@@ -58,9 +58,35 @@ transition: 1000ms forwards;
   z-index: 9;
   opacity: 0;
 }
+.user-input{
+  background-color: transparent;
+  min-height: 2rem;
+  color: inherit;
+  border: none;
+  font-size: inherit;
+  font-style: inherit;
+  font-family: "Urbanist", sans-serif;
+  width: auto;
+  height: auto;
+  /* resize: both; */
+}
+#intro > p> textarea {
+  height: 60vh;
+  width: 50vw;
+}
+#intro-2 > p> textarea{
+  height: 45vh;
+  width: 50vw;
+}
+#gitp > textarea{
+  height: 25vh;
+  width: 100%;
+}
 #nav-name {
   color: whitesmoke;
   text-transform: uppercase;
+  width: 100%;
+  box-sizing: border-box;
   /* width: 60%; */
   /* font-family: "Urbanist", sans-serif; */
 }
@@ -411,7 +437,7 @@ a:hover {
   --p: 100%;
 }
 
-#gita > a {
+#gita > input {
   color: whitesmoke;
   font-weight: lighter;
   text-decoration: none;

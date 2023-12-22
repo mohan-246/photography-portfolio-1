@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
-const Navbar = ({setCurNav , showAbout , showWork , selectedImage , curNav , navName}) => {
+const Navbar = ({setCurNav , showAbout , showWork , selectedImage , curNav , navName , setNavName}) => {
   useEffect(() => {
     const tracker = document.getElementById("tracker");
     const blob = document.getElementById("gitc");
@@ -187,7 +187,12 @@ const Navbar = ({setCurNav , showAbout , showWork , selectedImage , curNav , nav
   
   return (
     <div id="navbar">
-    <p id="nav-name">{navName}</p>
+    <input
+    id="nav-name"
+    className="user-input"
+    onChange={(e) => setNavName(e.target.value)}
+    value={navName}>
+    </input>
     <p id="nav-pages"><span
           id="work"
           onClick={() => {
