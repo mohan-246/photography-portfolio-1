@@ -39,24 +39,17 @@ const Landing = () => {
   const pic6Source = pic6
   const pic7Source = pic7
   const pic8Source = pic8
-  const about1Line1 = "Hi I am Mohan, As a ";
-  const about1Highlight1 = "photographer";
-  const about1Line2 =
-    "I am dedicated to transforming ordinary moments into extraordinary";
-  const about2Highlight2 = "memories.";
+  const about1Paragraph = "Hi I am Mohan, As a photographer I am dedicated to transforming ordinary moments into extraordinary memories.";
   const about1ImageSource = pic9
   const about2ImageSource2 = pic10
-  const about2HeadingText = "My Lens, ";
-  const about2HeadingHighlight = "Your Story";
+  const about2HeadingText = "My Lens, Your Story";
   const about2Paragraph =
     "With a passion for capturing fleeting moments and transforming them into lasting memories, I embark on a visual journey, guided by the light and emotions that surround me. My photography transcends mere images, weaving together narratives that resonate with viewers on a deeper level. Whether it's the raw energy of a live performance, the quiet intimacy of a wedding, or the timeless beauty of a landscape, I strive to create images that reflect the essence of the subject and evoke a sense of connection.";
-  const about3Line1 = "If you are looking to";
-  const about3Line2 = "discuss a project or just";
-  const about3Line3 = "talk photography";
+  const about3Paragraph = "If you are looking to a project or just talk photography";
   const linkedInLink = "https://linkedin.com";
   const instagramLink = "https://instagram.com";
   const twitterLink = "http://twitter.com";
-//Content
+  //Content
   const mailtoLink = `mailto:${emailAddress}`;
   const [loaded, setLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -980,18 +973,12 @@ const Landing = () => {
       <Counter />
       <About
         mailtoLink={mailtoLink}
-        about1Line1={about1Line1}
-        about1Highlight1={about1Highlight1}
-        about1Line2={about1Line2}
-        about2Highlight2={about2Highlight2}
+        about1Paragraph={about1Paragraph}
         about1ImageSource={about1ImageSource}
         about2ImageSource2={about2ImageSource2}
         about2HeadingText={about2HeadingText}
-        about2HeadingHighlight={about2HeadingHighlight}
         about2Paragraph={about2Paragraph}
-        about3Line1={about3Line1}
-        about3Line2={about3Line2}
-        about3Line3={about3Line3}
+        about3Paragraph={about3Paragraph}
         linkedInLink={linkedInLink}
         instagramLink={instagramLink}
         twitterLink={twitterLink}
