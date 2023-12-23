@@ -12,6 +12,16 @@ import Tracker from "./Tracker";
 import Navbar from "./Navbar";
 import Plus from "./Plus";
 import Counter from "./Counter";
+import pic1  from '../assets/pic1.png'
+import pic2  from '../assets/pic2.png'
+import pic3  from '../assets/pic3.png'
+import pic4  from '../assets/pic4.png'
+import pic5  from '../assets/pic5.png'
+import pic6  from '../assets/pic6.png'
+import pic7  from '../assets/pic7.png'
+import pic8  from '../assets/pic8.png'
+import pic9  from '../assets/pic9.png'
+import pic10  from '../assets/pic10.png'
 
 const Landing = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -21,31 +31,21 @@ const Landing = () => {
   //Content
   const emailAddress = "mohanakrishnang05@gmail.com";
   const navName = "Mohana krishnan";
-  const pic1Source =
-    "https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic2Source =
-    "https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic3Source =
-    "https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic4Source =
-    "https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic5Source =
-    "https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic6Source =
-    "https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic7Source =
-    "https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const pic8Source =
-    "https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const pic1Source = pic1
+  const pic2Source = pic2
+  const pic3Source = pic3
+  const pic4Source = pic4
+  const pic5Source = pic5
+  const pic6Source = pic6
+  const pic7Source = pic7
+  const pic8Source = pic8
   const about1Line1 = "Hi I am Mohan, As a ";
   const about1Highlight1 = "photographer";
   const about1Line2 =
     "I am dedicated to transforming ordinary moments into extraordinary";
   const about2Highlight2 = "memories.";
-  const about1ImageSource =
-    "https://images.unsplash.com/photo-1526089571952-1b2803457035?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const about2ImageSource2 =
-    "https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const about1ImageSource = pic9
+  const about2ImageSource2 = pic10
   const about2HeadingText = "My Lens, ";
   const about2HeadingHighlight = "Your Story";
   const about2Paragraph =
@@ -56,7 +56,7 @@ const Landing = () => {
   const linkedInLink = "https://linkedin.com";
   const instagramLink = "https://instagram.com";
   const twitterLink = "http://twitter.com";
-
+//Content
   const mailtoLink = `mailto:${emailAddress}`;
   const [loaded, setLoaded] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -572,7 +572,6 @@ const Landing = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [curNav, selectedImage]);
-
   function showAbout() {
     Observer.getById("showPicObserver")?.disable();
     tl?.add(tla);
