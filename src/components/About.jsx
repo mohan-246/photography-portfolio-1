@@ -24,7 +24,6 @@ const About = ({
   twitterLink,
   instagramLink,
 }) => {
-  const [isEditing2, setIsEditing2] = useState(false);
   function addInput(setImageSource) {
     var fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -41,18 +40,11 @@ const About = ({
 
     fileInput.click();
 }
-  const handleImageChange = (e , setImage , setIsEditing) => {
+  const handleImageChange = (e , setImage) => {
     const file = e.target.files[0];
 
     if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (readerEvent) => {
-        setImage(readerEvent.target.result);
-        setIsEditing(false); // Close file input after image is selected
-      };
-
-      reader.readAsDataURL(file);
+      setImage([URL.createObjectURL(file),file]);
     }
   };
   return (
@@ -86,7 +78,7 @@ const About = ({
         <div id="about-pic">
             <img
               id="photographer"
-              src={about1ImageSource}
+              src={about1ImageSource[0]}
               alt=""
               onClick={() => addInput(setAbout1ImageSource)}
             />
@@ -96,7 +88,7 @@ const About = ({
         <div id="about-pic-2">
             <img
               id="photographer"
-              src={about2ImageSource2}
+              src={about2ImageSource2[0]}
               alt=""
               onClick={() => addInput(setAbout2ImageSource2)}
             />

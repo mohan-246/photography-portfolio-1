@@ -57,11 +57,11 @@ const Landing = () => {
     "Hi I am Mohan, As a photographer I am dedicated to transforming ordinary moments into extraordinary memories."
   );
   const [about1ImageSource, setAbout1ImageSource] = useState(
-    "https://images.unsplash.com/photo-1526089571952-1b2803457035?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
+    ["https://images.unsplash.com/photo-1526089571952-1b2803457035?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ,null]);
   const [about2ImageSource2, setAbout2ImageSource2] = useState(
-    "https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
+    ["https://images.unsplash.com/photo-1495745966610-2a67f2297e5e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  ,null]);
   const [about2HeadingText, setAbout2HeadingText] = useState(
     "My Lens, Your Story"
   );
@@ -998,8 +998,8 @@ const Landing = () => {
     formData.append("file", pic7Source[1]);
     formData.append("file", pic8Source[1]);
     formData.append("about1Paragraph", about1Paragraph);
-    formData.append("file", about1ImageSource);
-    formData.append("file", about2ImageSource2);
+    formData.append("file", about1ImageSource[1]);
+    formData.append("file", about2ImageSource2[1]);
     formData.append("about2HeadingText", about2HeadingText);
     formData.append("about2Paragraph", about2Paragraph);
     formData.append("about3Paragraph", about3Paragraph);
