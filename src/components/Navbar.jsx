@@ -2,7 +2,16 @@ import gsap from "gsap";
 import { useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
-const Navbar = ({setCurNav , showAbout , showWork , selectedImage , curNav , navName , setNavName}) => {
+const Navbar = ({
+  setCurNav,
+  showAbout,
+  showWork,
+  selectedImage,
+  curNav,
+  navName,
+  setNavName,
+  host
+}) => {
   useEffect(() => {
     const tracker = document.getElementById("tracker");
     const blob = document.getElementById("gitc");
@@ -184,16 +193,20 @@ const Navbar = ({setCurNav , showAbout , showWork , selectedImage , curNav , nav
       }
     };
   }, [curNav, selectedImage]);
-  
+
   return (
     <div id="navbar">
-    <input
-    id="nav-name"
-    className="user-input"
-    onChange={(e) => setNavName(e.target.value)}
-    value={navName}>
-    </input>
-    <p id="nav-pages"><span
+      <input
+        id="nav-name"
+        className="user-input"
+        onChange={(e) => setNavName(e.target.value)}
+        value={navName}
+      ></input>
+      <p id="nav-pages">
+        <span id="host" onClick={() => host()}>
+          Host
+        </span>
+        <span
           id="work"
           onClick={() => {
             setCurNav("work");
@@ -210,10 +223,10 @@ const Navbar = ({setCurNav , showAbout , showWork , selectedImage , curNav , nav
           }}
         >
           About
-        </span></p>
-        
-      </div>
-  )
-}
+        </span>
+      </p>
+    </div>
+  );
+};
 
-export default Navbar
+export default Navbar;

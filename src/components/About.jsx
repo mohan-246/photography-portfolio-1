@@ -1,10 +1,14 @@
 /* eslint-disable react/prop-types */
+import { useState,useRef } from "react";
+
 const About = ({
   mailtoLink,
   setEmailAddress,
   about1Paragraph,
   setAbout1Paragraph,
   about1ImageSource,
+  setAbout1ImageSource,
+  setAbout2ImageSource2,
   about2ImageSource2,
   about2HeadingText,
   setAbout2HeadingText,
@@ -18,8 +22,39 @@ const About = ({
   emailAddress,
   linkedInLink,
   twitterLink,
-  instagramLink
+  instagramLink,
 }) => {
+  const [isEditing2, setIsEditing2] = useState(false);
+  function addInput(setImageSource) {
+    var fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/";
+    fileInput.id = "dynamicFileInput";
+    fileInput.style.display = "none";
+
+    document.body.appendChild(fileInput);
+
+    fileInput.addEventListener("change", function (e) {
+        handleImageChange(e,setImageSource)
+        document.body.removeChild(fileInput);
+    });
+
+    fileInput.click();
+}
+  const handleImageChange = (e , setImage , setIsEditing) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (readerEvent) => {
+        setImage(readerEvent.target.result);
+        setIsEditing(false); // Close file input after image is selected
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <section id="about-me">
       <div id="about-1">
@@ -49,12 +84,22 @@ const About = ({
           </p>
         </div>
         <div id="about-pic">
-          <img id="photographer" src={about1ImageSource} alt="" />
+            <img
+              id="photographer"
+              src={about1ImageSource}
+              alt=""
+              onClick={() => addInput(setAbout1ImageSource)}
+            />
         </div>
       </div>
       <div id="about-2">
         <div id="about-pic-2">
-          <img id="photographer-2" src={about2ImageSource2} alt="" />
+            <img
+              id="photographer"
+              src={about2ImageSource2}
+              alt=""
+              onClick={() => addInput(setAbout2ImageSource2)}
+            />
         </div>
         <div id="intro-2">
           <h2>
@@ -103,10 +148,26 @@ const About = ({
           </div>
         </div>
         <div id="gita">
-          <input className="user-input" onChange={(e) => setEmailAddress(e.target.value)} value={emailAddress} ></input>
-          <input className="user-input" onChange={(e) => setLinkedInLink(e.target.value)} value={linkedInLink} ></input>
-          <input className="user-input" onChange={(e) => setInstagramLink(e.target.value)} value={instagramLink} ></input>
-          <input className="user-input" onChange={(e) => setTwitterLink(e.target.value)} value={twitterLink} ></input>
+          <input
+            className="user-input"
+            onChange={(e) => setEmailAddress(e.target.value)}
+            value={emailAddress}
+          ></input>
+          <input
+            className="user-input"
+            onChange={(e) => setLinkedInLink(e.target.value)}
+            value={linkedInLink}
+          ></input>
+          <input
+            className="user-input"
+            onChange={(e) => setInstagramLink(e.target.value)}
+            value={instagramLink}
+          ></input>
+          <input
+            className="user-input"
+            onChange={(e) => setTwitterLink(e.target.value)}
+            value={twitterLink}
+          ></input>
         </div>
       </div>
     </section>

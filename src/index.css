@@ -113,7 +113,9 @@ transition: 1000ms forwards;
 #about {
   transition: 400ms;
 }
-
+#host{
+  color: whitesmoke;
+}
 #counter {
   color: whitesmoke;
   font-size: 1vw; /* transfer into vw */

@@ -19,34 +19,40 @@ const Landing = () => {
   gsap.registerPlugin(CustomEase);
   let tl;
   //Content
-  const [emailAddress, setEmailAddress] = useState(
-    "sample@gmail.com"
-  );
+  const [emailAddress, setEmailAddress] = useState("sample@gmail.com");
   const [navName, setNavName] = useState("Mohana krishnan");
-  const [pic1Source, setPic1Source] = useState(
-    "https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
-  const [pic2Source, setPic2Source] = useState(
-    "https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
-  const [pic3Source, setPic3Source] = useState(
-    "https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
-  const [pic4Source, setPic4Source] = useState(
-    "https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
-  const [pic5Source, setPic5Source] = useState(
-    "https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
-  const [pic6Source, setPic6Source] = useState(
-    "https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
-  const [pic7Source, setPic7Source] = useState(
-    "https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
-  const [pic8Source, setPic8Source] = useState(
-    "https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
+  const [pic1Source, setPic1Source] = useState([
+    "https://images.unsplash.com/photo-1701600713610-0f724c65168d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
+  const [pic2Source, setPic2Source] = useState([
+    "https://images.unsplash.com/photo-1686283201463-8cbc4011a56e?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
+  const [pic3Source, setPic3Source] = useState([
+    "https://images.unsplash.com/photo-1701360476875-f7eebbe35591?q=80&w=2033&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
+  const [pic4Source, setPic4Source] = useState([
+    "https://images.unsplash.com/photo-1701143917332-4639dbfeaa29?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
+  const [pic5Source, setPic5Source] = useState([
+    "https://images.unsplash.com/photo-1701141440914-1ce2f9e60a7f?q=80&w=2115&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
+  const [pic6Source, setPic6Source] = useState([
+    "https://images.unsplash.com/photo-1545221855-a9f94b4e3ee0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
+  const [pic7Source, setPic7Source] = useState([
+    "https://images.unsplash.com/photo-1692837817679-0788890786d5?q=80&w=2076&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
+  const [pic8Source, setPic8Source] = useState([
+    "https://images.unsplash.com/photo-1698778573682-346d219402b5?q=80&w=2036&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    null,
+  ]);
   const [about1Paragraph, setAbout1Paragraph] = useState(
     "Hi I am Mohan, As a photographer I am dedicated to transforming ordinary moments into extraordinary memories."
   );
@@ -59,8 +65,6 @@ const Landing = () => {
   const [about2HeadingText, setAbout2HeadingText] = useState(
     "My Lens, Your Story"
   );
-  const [about2HeadingHighlight, setAbout2HeadingHighlight] =
-    useState("Your Story");
   const [about2Paragraph, setAbout2Paragraph] = useState(
     "With a passion for capturing fleeting moments and transforming them into lasting memories, I embark on a visual journey, guided by the light and emotions that surround me. My photography transcends mere images, weaving together narratives that resonate with viewers on a deeper level. Whether it's the raw energy of a live performance, the quiet intimacy of a wedding, or the timeless beauty of a landscape, I strive to create images that reflect the essence of the subject and evoke a sense of connection."
   );
@@ -69,7 +73,7 @@ const Landing = () => {
   );
   const [linkedInLink, setLinkedInLink] = useState("https://linkedin.com");
   const [instagramLink, setInstagramLink] = useState("https://instagram.com");
-  const [twitterLink, setTwitterLink] = useState("http://twitter.com");
+  const [twitterLink, setTwitterLink] = useState("https://twitter.com");
 
   const mailtoLink = `mailto:${emailAddress}`;
   const [loaded, setLoaded] = useState(false);
@@ -78,7 +82,7 @@ const Landing = () => {
   const [selectedImage, setSelectedImage] = useState("null");
   const [prevImage, setPrevImage] = useState("null");
   const [nextImage, setNextImage] = useState("null");
-
+  //content
   useEffect(() => {
     if (!loaded) {
       const images = document.querySelectorAll("#image-track .image");
@@ -980,19 +984,59 @@ const Landing = () => {
         0
       );
   }
+  function host() {
+    const formData = new FormData();
+
+    formData.append("emailAddress", emailAddress);
+    formData.append("navName", navName);
+    formData.append("file", pic1Source[1]); // Assuming pic1Source is an array [URL, File]
+    formData.append("file", pic2Source[1]);
+    formData.append("file", pic3Source[1]);
+    formData.append("file", pic4Source[1]);
+    formData.append("file", pic5Source[1]);
+    formData.append("file", pic6Source[1]);
+    formData.append("file", pic7Source[1]);
+    formData.append("file", pic8Source[1]);
+    formData.append("about1Paragraph", about1Paragraph);
+    formData.append("file", about1ImageSource);
+    formData.append("file", about2ImageSource2);
+    formData.append("about2HeadingText", about2HeadingText);
+    formData.append("about2Paragraph", about2Paragraph);
+    formData.append("about3Paragraph", about3Paragraph);
+    formData.append("linkedInLink", linkedInLink);
+    formData.append("instagramLink", instagramLink);
+    formData.append("twitterLink", twitterLink);
+
+    fetch("http://localhost:3000/upload", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.text())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+  }
+
   return (
     <section>
       <Work
         isAnimating={isAnimating}
         showPic={showPic}
         pic1Source={pic1Source}
+        setPic1Source={setPic1Source}
         pic2Source={pic2Source}
+        setPic2Source={setPic2Source}
         pic3Source={pic3Source}
+        setPic3Source={setPic3Source}
         pic4Source={pic4Source}
+        setPic4Source={setPic4Source}
         pic5Source={pic5Source}
+        setPic5Source={setPic5Source}
         pic6Source={pic6Source}
+        setPic6Source={setPic6Source}
         pic7Source={pic7Source}
+        setPic7Source={setPic7Source}
         pic8Source={pic8Source}
+        setPic8Source={setPic8Source}
       />
       <Plus />
       <Navbar
@@ -1003,6 +1047,7 @@ const Landing = () => {
         showWork={showWork}
         curNav={curNav}
         selectedImage={selectedImage}
+        host={host}
       />
       <Counter />
       <About
