@@ -82,7 +82,7 @@ const Landing = () => {
   const [selectedImage, setSelectedImage] = useState("null");
   const [prevImage, setPrevImage] = useState("null");
   const [nextImage, setNextImage] = useState("null");
-  //content
+  //Content
   useEffect(() => {
     if (!loaded) {
       const images = document.querySelectorAll("#image-track .image");
@@ -986,7 +986,7 @@ const Landing = () => {
   }
   function host() {
     const formData = new FormData();
-
+    formData.append("variant", "photography-portfolio-1/dist")
     formData.append("emailAddress", emailAddress);
     formData.append("navName", navName);
     formData.append("file", pic1Source[1]); // Assuming pic1Source is an array [URL, File]
@@ -1011,8 +1011,7 @@ const Landing = () => {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.text())
-      .then((data) => console.log(data))
+      
       .catch((error) => console.error("Error:", error));
   }
 
