@@ -986,7 +986,7 @@ const Landing = () => {
   }
   function host() {
     const formData = new FormData();
-    formData.append("variant", "photography-portfolio-1/dist")
+    formData.append("variant", "Photography-Portfolio-1")
     formData.append("emailAddress", emailAddress);
     formData.append("navName", navName);
     formData.append("file", pic1Source[1]); // Assuming pic1Source is an array [URL, File]
@@ -1007,7 +1007,7 @@ const Landing = () => {
     formData.append("instagramLink", instagramLink);
     formData.append("twitterLink", twitterLink);
 
-    fetch("http://localhost:3000/upload", {
+    fetch("http://localhost:3001/upload", {
       method: "POST",
       body: formData,
     })
