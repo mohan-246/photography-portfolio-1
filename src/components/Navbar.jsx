@@ -10,7 +10,7 @@ const Navbar = ({
   curNav,
   navName,
   setNavName,
-  host
+  setShowOverlay
 }) => {
   useEffect(() => {
     const tracker = document.getElementById("tracker");
@@ -203,7 +203,7 @@ const Navbar = ({
         value={navName}
       ></input>
       <p id="nav-pages">
-        <span id="host" onClick={() => host()}>
+        <span id="host" onClick={() => setShowOverlay(true)}>
           Host
         </span>
         <span

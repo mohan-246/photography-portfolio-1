@@ -12,11 +12,13 @@ import Tracker from "./Tracker";
 import Navbar from "./Navbar";
 import Plus from "./Plus";
 import Counter from "./Counter";
+import ConfirmOverlay from "./ConfirmOverlay";
 
 const Landing = () => {
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Observer);
   gsap.registerPlugin(CustomEase);
+const [showOverlay , setShowOverlay] = useState(false)
   let tl;
   //Content
   const [emailAddress, setEmailAddress] = useState("sample@gmail.com");
@@ -985,6 +987,7 @@ const Landing = () => {
       );
   }
   function host() {
+    
     const formData = new FormData();
     formData.append("variant", "Photography-Portfolio-1")
     formData.append("emailAddress", emailAddress);
@@ -1007,12 +1010,12 @@ const Landing = () => {
     formData.append("instagramLink", instagramLink);
     formData.append("twitterLink", twitterLink);
 
-    fetch("http://localhost:3001/upload", {
-      method: "POST",
-      body: formData,
-    })
+    // fetch("http://localhost:3001/upload", {
+    //   method: "POST",
+    //   body: formData,
+    // })
       
-      .catch((error) => console.error("Error:", error));
+      // .catch((error) => console.error("Error:", error));
   }
 
   return (
@@ -1046,7 +1049,7 @@ const Landing = () => {
         showWork={showWork}
         curNav={curNav}
         selectedImage={selectedImage}
-        host={host}
+        setShowOverlay={setShowOverlay}
       />
       <Counter />
       <About
@@ -1083,6 +1086,7 @@ const Landing = () => {
         pic7Source={pic7Source}
         pic8Source={pic8Source}
       />
+      { showOverlay && <ConfirmOverlay setShowOverlay={setShowOverlay} host={host} />}
       <Frame />
       <Tracker />
     </section>
