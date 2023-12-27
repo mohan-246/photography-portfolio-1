@@ -54,70 +54,63 @@ const Landing = () => {
   const twitterLink = "http://twitter.com";
   //Content
   let about2HeadingHighlight = "",
-  about2HeadingTextBefore = about2HeadingFullText,
-  about2HeadingTextAfter = "",
-  about1Highlight = "",
-  about1ParagraphBefore = about1FullParagraph,
-  about1ParagraphAfter = "";
-//Highlight matching
-//first paragraph
-const firstDollarIndex1 = about1FullParagraph.indexOf("$");
-if (firstDollarIndex1 !== -1) {
-  const firstSpace1 = about1FullParagraph.indexOf(" ", firstDollarIndex1 + 1);
-  if(firstSpace1 !== -1) {
-    about1Highlight = about1FullParagraph.substring(
-      firstDollarIndex1 + 1,
-      firstSpace1
-    );
-    about1ParagraphBefore = about1FullParagraph.substring(
-      0,
-      firstDollarIndex1
-    );
-    about1ParagraphAfter = about1FullParagraph.substring(firstSpace1);
+    about2HeadingTextBefore = about2HeadingFullText,
+    about2HeadingTextAfter = "",
+    about1Highlight = "",
+    about1ParagraphBefore = about1FullParagraph,
+    about1ParagraphAfter = "";
+  //Highlight matching
+  //first paragraph
+  const firstDollarIndex1 = about1FullParagraph.indexOf("$");
+  if (firstDollarIndex1 !== -1) {
+    const firstSpace1 = about1FullParagraph.indexOf(" ", firstDollarIndex1 + 1);
+    if (firstSpace1 !== -1) {
+      about1Highlight = about1FullParagraph.substring(
+        firstDollarIndex1 + 1,
+        firstSpace1
+      );
+      about1ParagraphBefore = about1FullParagraph.substring(
+        0,
+        firstDollarIndex1
+      );
+      about1ParagraphAfter = about1FullParagraph.substring(firstSpace1);
+    } else {
+      about1Highlight = about1FullParagraph.substring(firstDollarIndex1 + 1);
+      about1ParagraphBefore = about1FullParagraph.substring(
+        0,
+        firstDollarIndex1
+      );
+      about1ParagraphAfter = "";
+    }
   }
-  else{
-    about1Highlight = about1FullParagraph.substring(
-      firstDollarIndex1 + 1
-    );
-    about1ParagraphBefore = about1FullParagraph.substring(
-      0,
-      firstDollarIndex1
-    );
-    about1ParagraphAfter = ""
-  }
-
-  
-}
-//second paragraph
-const firstDollarIndex2 = about2HeadingFullText.indexOf("$");
-if (firstDollarIndex2 !== -1) {
-  const firstSpace2 = about2HeadingFullText.indexOf(
-    " ",
-    firstDollarIndex2 + 1
-  );
-  if (firstSpace2 !== -1) {
-    about2HeadingHighlight = about2HeadingFullText.substring(
-      firstDollarIndex2 + 1,
-      firstSpace2
-    );
-    about2HeadingTextBefore = about2HeadingFullText.substring(
-      0,
-      firstDollarIndex2
-    );
-    about2HeadingTextAfter = about2HeadingFullText.substring(firstSpace2);
-  }
-  else{
-    about2HeadingHighlight = about2HeadingFullText.substring(
+  //second paragraph
+  const firstDollarIndex2 = about2HeadingFullText.indexOf("$");
+  if (firstDollarIndex2 !== -1) {
+    const firstSpace2 = about2HeadingFullText.indexOf(
+      " ",
       firstDollarIndex2 + 1
     );
-    about2HeadingTextBefore = about2HeadingFullText.substring(
-      0,
-      firstDollarIndex2
-    );
-    about2HeadingTextAfter = ""
+    if (firstSpace2 !== -1) {
+      about2HeadingHighlight = about2HeadingFullText.substring(
+        firstDollarIndex2 + 1,
+        firstSpace2
+      );
+      about2HeadingTextBefore = about2HeadingFullText.substring(
+        0,
+        firstDollarIndex2
+      );
+      about2HeadingTextAfter = about2HeadingFullText.substring(firstSpace2);
+    } else {
+      about2HeadingHighlight = about2HeadingFullText.substring(
+        firstDollarIndex2 + 1
+      );
+      about2HeadingTextBefore = about2HeadingFullText.substring(
+        0,
+        firstDollarIndex2
+      );
+      about2HeadingTextAfter = "";
+    }
   }
-  
-}
 
   const mailtoLink = `mailto:${emailAddress}`;
   const [loaded, setLoaded] = useState(false);
