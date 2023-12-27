@@ -1010,12 +1010,12 @@ const [showOverlay , setShowOverlay] = useState(false)
     formData.append("instagramLink", instagramLink);
     formData.append("twitterLink", twitterLink);
 
-    // fetch("http://localhost:3001/upload", {
-    //   method: "POST",
-    //   body: formData,
-    // })
+    fetch("http://localhost:3001/upload", {
+      method: "POST",
+      body: formData,
+    })
       
-      // .catch((error) => console.error("Error:", error));
+      .catch((error) => console.error("Error:", error));
   }
 
   return (
