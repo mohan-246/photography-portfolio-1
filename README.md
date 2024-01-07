@@ -8,7 +8,7 @@ Welcome to the Photographer Portfolio repository! This project is a responsive a
 
 - **Customizable Text:** Easily update and personalize text content on the website.
   
-- **Image URL Editing:** Change image URLs to display your photography portfolio.
+- **Image URL Editing:** Change image URLs to display in your portfolio.
   
 - **Responsive Design:** Ensures a seamless viewing experience on various devices.
 
