@@ -20,6 +20,7 @@ const Landing = () => {
   gsap.registerPlugin(CustomEase);
 const [showOverlay , setShowOverlay] = useState(false)
   let tl;
+  const [idValue, setIdValue] = useState("")
   //Content
   const [emailAddress, setEmailAddress] = useState("sample@gmail.com");
   const [navName, setNavName] = useState("Mohana krishnan");
@@ -136,6 +137,10 @@ const [showOverlay , setShowOverlay] = useState(false)
       setLoaded(true);
     }
   }, [loaded]);
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    setIdValue(urlSearchParams.get('id'))
+  }, []);
   function getNextAndPrev(currentValue) {
     const maxValue = 8; // Assuming the maximum value is 8
     const nextValue = (currentValue % maxValue) + 1;
@@ -989,6 +994,7 @@ const [showOverlay , setShowOverlay] = useState(false)
   function host() {
     
     const formData = new FormData();
+    formData.append("userID",decodeURIComponent(idValue))
     formData.append("variant", "Photography-Portfolio-1")
     formData.append("emailAddress", emailAddress);
     formData.append("navName", navName);

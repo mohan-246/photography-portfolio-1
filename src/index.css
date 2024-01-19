@@ -33,10 +33,6 @@ body {
   object-fit: cover;
   object-position: 100% center;
 }
-/* #image-track > .image:hover{
-scale: 1.05;
-transition: 1000ms forwards;
-} */
 #image-track {
   z-index: 5;
 }
