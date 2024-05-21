@@ -80,10 +80,6 @@ We welcome contributions! To contribute to the Photographer Portfolio, follow th
 
 If you encounter any issues or have suggestions, please open an issue. We appreciate your feedback!
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 Happy showcasing your photography portfolio!
 
 ---
